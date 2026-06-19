@@ -1,58 +1,89 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Website Ikatan Mahasiswa Kalukku (IMK)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Website resmi Ikatan Mahasiswa Kalukku (IMK) Kabupaten Majene. 
+Platform ini merupakan pusat informasi, publikasi kegiatan, serta pengelolaan administrasi dan pendaftaran bagi organisasi IMK.
 
-## About Laravel
+## 🚀 Fitur Utama
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+* **Halaman Publik Dinamis:** Menampilkan informasi umum, berita terbaru, struktur organisasi lengkap, galeri kegiatan (terintegrasi link Drive dokumentasi), dan repositori lampiran.
+* **Dashboard Admin (CMS):** 
+  * Kelola Berita & Galeri
+  * Kelola Lampiran Dokumen (dengan fitur visibilitas / *hide-show*)
+  * Kelola Data Pengurus & Struktur Organisasi
+  * Kelola Data Pendaftar (Penerimaan Anggota Baru)
+  * Kelola Akun Admin
+  * Pengaturan Beranda (Edit teks periode, kontak, tautan media sosial, serta nama dan *crop* foto pengurus inti)
+* **Pendaftaran Anggota Baru:** Formulir *online* modern dengan antarmuka dinamis untuk mempermudah rekrutmen mahasiswa Kalukku.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🛠️ Teknologi yang Digunakan
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+* **Backend:** Laravel 11.x (PHP >= 8.2)
+* **Frontend:** TailwindCSS, Alpine.js, Laravel Blade
+* **Database:** MySQL / MariaDB
+* **Ekstensi Tambahan:** Cropper.js (Pemotongan foto), SweetAlert2 (Notifikasi elegan), AOS (Animasi *scroll*)
 
-## Learning Laravel
+## 💻 Panduan Instalasi (Lokal)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Pastikan Anda telah menginstal PHP, Composer, Node.js, dan database server (XAMPP/Laragon) di komputer Anda.
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. **Clone Repositori & Masuk ke Direktori**
+   ```bash
+   git clone <link-repositori-anda>
+   cd Ikatan-Mahasiswa-Kalukku
+   ```
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+2. **Instal Dependensi Backend (PHP)**
+   ```bash
+   composer install
+   ```
 
-## Agentic Development
+3. **Instal Dependensi Frontend (Node.js)**
+   ```bash
+   npm install
+   npm run build
+   ```
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+4. **Konfigurasi Environment**
+   Salin file `.env.example` menjadi `.env`.
+   ```bash
+   cp .env.example .env
+   ```
+   Sesuaikan baris koneksi database pada file `.env` dengan kredensial database lokal Anda:
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=nama_database_anda
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
 
-```bash
-composer require laravel/boost --dev
+5. **Generate Application Key**
+   ```bash
+   php artisan key:generate
+   ```
 
-php artisan boost:install
-```
+6. **Migrasi Database**
+   ```bash
+   php artisan migrate
+   ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+7. **Hubungkan Folder Storage (Sangat Penting)**
+   Perintah ini wajib dijalankan agar file foto, dokumen, dan media yang diunggah dari Dashboard Admin bisa ditampilkan di website.
+   ```bash
+   php artisan storage:link
+   ```
 
-## Contributing
+8. **Jalankan Server Lokal**
+   ```bash
+   php artisan serve
+   ```
+   Aplikasi sekarang dapat diakses melalui browser di alamat: `http://localhost:8000`.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 🔐 Akses Admin (Dashboard)
 
-## Code of Conduct
+Untuk mengakses halaman Admin, Anda perlu login di rute `/login`. Jika aplikasi belum memiliki akun admin sama sekali, silakan daftarkan satu akun melalui rute pendaftaran bawaan Laravel (jika aktif) atau tambahkan secara manual melalui database.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 📄 Lisensi
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Hak cipta (C) Website ini dirancang dan dikembangkan secara khusus untuk kebutuhan organisasi **Ikatan Mahasiswa Kalukku (IMK)**.
