@@ -16,7 +16,7 @@
                     </div>
                 @endif
 
-                <form action="{{ route('admin.settings.update') }}" method="POST" class="space-y-8 relative z-10">
+                <form action="{{ route('admin.settings.update') }}" method="POST" enctype="multipart/form-data" class="space-y-8 relative z-10">
                     @csrf
                     @method('PUT')
 
@@ -26,6 +26,47 @@
                             <label for="org_period" class="block text-sm font-bold text-gray-700 mb-2">Teks Periode Kepengurusan (Digunakan di Bagan Struktur)</label>
                             <input type="text" name="org_period" id="org_period" value="{{ old('org_period', $setting->org_period) }}" placeholder="Contoh: Periode 2025/2026" class="block w-full border-gray-200 focus:border-imk-400 focus:ring-imk-400 rounded-2xl shadow-sm text-gray-700 p-4 bg-white hover:bg-gray-50 transition-colors">
                             @error('org_period') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
+                        </div>
+                    </div>
+
+                    <div class="mb-8 p-6 bg-gray-50 border border-gray-100 rounded-3xl">
+                        <h3 class="text-xl font-bold text-[#051F20] mb-4">Foto Struktur (Halaman Beranda)</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <!-- Ketua Photo -->
+                            <div>
+                                <label for="ketua_photo" class="block text-sm font-bold text-gray-700 mb-2">Foto Ketua Umum</label>
+                                @if($setting->ketua_photo)
+                                    <img src="{{ asset('storage/' . $setting->ketua_photo) }}" alt="Ketua" class="w-full h-40 object-cover rounded-xl mb-2">
+                                @else
+                                    <img src="{{ asset('image/pengurus/ketua.jpeg') }}" alt="Ketua Default" class="w-full h-40 object-cover rounded-xl mb-2 opacity-50">
+                                @endif
+                                <input type="file" name="ketua_photo" id="ketua_photo" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-imk-50 file:text-imk-700 hover:file:bg-imk-100">
+                                @error('ketua_photo') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
+                            </div>
+
+                            <!-- Sekretaris Photo -->
+                            <div>
+                                <label for="sekretaris_photo" class="block text-sm font-bold text-gray-700 mb-2">Foto Sekretaris Umum</label>
+                                @if($setting->sekretaris_photo)
+                                    <img src="{{ asset('storage/' . $setting->sekretaris_photo) }}" alt="Sekretaris" class="w-full h-40 object-cover rounded-xl mb-2">
+                                @else
+                                    <img src="{{ asset('image/pengurus/sekretaris.jpg') }}" alt="Sekretaris Default" class="w-full h-40 object-cover rounded-xl mb-2 opacity-50">
+                                @endif
+                                <input type="file" name="sekretaris_photo" id="sekretaris_photo" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-imk-50 file:text-imk-700 hover:file:bg-imk-100">
+                                @error('sekretaris_photo') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
+                            </div>
+
+                            <!-- Bendahara Photo -->
+                            <div>
+                                <label for="bendahara_photo" class="block text-sm font-bold text-gray-700 mb-2">Foto Bendahara Umum</label>
+                                @if($setting->bendahara_photo)
+                                    <img src="{{ asset('storage/' . $setting->bendahara_photo) }}" alt="Bendahara" class="w-full h-40 object-cover rounded-xl mb-2">
+                                @else
+                                    <img src="{{ asset('image/pengurus/bendahara.jpeg') }}" alt="Bendahara Default" class="w-full h-40 object-cover rounded-xl mb-2 opacity-50">
+                                @endif
+                                <input type="file" name="bendahara_photo" id="bendahara_photo" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-imk-50 file:text-imk-700 hover:file:bg-imk-100">
+                                @error('bendahara_photo') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
+                            </div>
                         </div>
                     </div>
 

@@ -213,7 +213,7 @@
                     <!-- Sekretaris Umum (Kiri) -->
                     <div class="flex flex-col items-center group w-full md:w-1/3 order-2 md:order-1" data-aos="fade-up" data-aos-delay="200">
                         <div class="w-64 h-80 lg:w-72 lg:h-96 overflow-hidden rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 mb-6 relative">
-                            <img src="{{ asset('image/pengurus/sekretaris.jpg') }}" alt="Sekretaris IMK"
+                            <img src="{{ $setting->sekretaris_photo ? asset('storage/' . $setting->sekretaris_photo) : asset('image/pengurus/sekretaris.jpg') }}" alt="Sekretaris IMK"
                                 class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700">
                             <div class="absolute inset-0 bg-gradient-to-t from-[#051F20]/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-500"></div>
                         </div>
@@ -229,7 +229,7 @@
                     <!-- Ketua Umum (Tengah - Lebih Besar/Tinggi) -->
                     <div class="flex flex-col items-center group w-full md:w-1/3 md:-mt-12 z-20 order-1 md:order-2" data-aos="fade-up" data-aos-delay="100">
                         <div class="w-72 h-96 lg:w-[340px] lg:h-[460px] overflow-hidden rounded-[2.5rem] shadow-2xl hover:shadow-[0_20px_50px_rgba(5,31,32,0.25)] transition-all duration-500 mb-6 relative border-4 border-white">
-                            <img src="{{ asset('image/pengurus/ketua.jpeg') }}" alt="Ketua IMK"
+                            <img src="{{ $setting->ketua_photo ? asset('storage/' . $setting->ketua_photo) : asset('image/pengurus/ketua.jpeg') }}" alt="Ketua IMK"
                                 class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700">
                             <div class="absolute inset-0 bg-gradient-to-t from-[#051F20]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-500"></div>
                         </div>
@@ -245,7 +245,7 @@
                     <!-- Bendahara Umum (Kanan) -->
                     <div class="flex flex-col items-center group w-full md:w-1/3 order-3" data-aos="fade-up" data-aos-delay="300">
                         <div class="w-64 h-80 lg:w-72 lg:h-96 overflow-hidden rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 mb-6 relative">
-                            <img src="{{ asset('image/pengurus/bendahara.jpeg') }}" alt="Bendahara IMK"
+                            <img src="{{ $setting->bendahara_photo ? asset('storage/' . $setting->bendahara_photo) : asset('image/pengurus/bendahara.jpeg') }}" alt="Bendahara IMK"
                                 class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700">
                             <div class="absolute inset-0 bg-gradient-to-t from-[#051F20]/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-500"></div>
                         </div>

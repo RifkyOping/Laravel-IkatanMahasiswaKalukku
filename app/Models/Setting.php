@@ -26,6 +26,9 @@ class Setting extends Model
         'show_youtube',
         'org_period',
         'is_registration_open',
+        'ketua_photo',
+        'sekretaris_photo',
+        'bendahara_photo',
     ];
 
     protected $casts = [

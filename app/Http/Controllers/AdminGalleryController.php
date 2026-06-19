@@ -26,7 +26,7 @@ class AdminGalleryController extends Controller
             'content' => 'required',
             'date' => 'required|date',
             'images' => 'required|array|min:1|max:3',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif'
         ], [
             'images.max' => 'Maksimal foto yang diizinkan adalah 3.',
             'images.required' => 'Minimal harus mengunggah 1 foto.',
@@ -59,7 +59,7 @@ class AdminGalleryController extends Controller
             'content' => 'required',
             'date' => 'required|date',
             'images' => 'nullable|array|max:3',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif'
         ], [
             'images.max' => 'Maksimal foto yang diizinkan adalah 3.',
         ]);

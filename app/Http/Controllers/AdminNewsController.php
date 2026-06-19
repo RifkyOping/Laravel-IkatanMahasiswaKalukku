@@ -27,7 +27,7 @@ class AdminNewsController extends Controller
             'content' => 'required',
             'source_link' => 'nullable|url',
             'images' => 'nullable|array|max:3',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif'
         ], [
             'images.max' => 'Maksimal gambar yang diizinkan adalah 3.',
         ]);
@@ -60,7 +60,7 @@ class AdminNewsController extends Controller
             'content' => 'required',
             'source_link' => 'nullable|url',
             'images' => 'nullable|array|max:3',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif'
         ], [
             'images.max' => 'Maksimal gambar yang diizinkan adalah 3.',
         ]);

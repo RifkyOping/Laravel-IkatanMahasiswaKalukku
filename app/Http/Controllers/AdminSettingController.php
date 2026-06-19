@@ -32,11 +32,14 @@ class AdminSettingController extends Controller
             'facebook' => 'nullable|url',
             'whatsapp' => 'nullable|url',
             'youtube' => 'nullable|url',
+            'ketua_photo' => 'nullable|image|mimes:jpeg,png,jpg,webp',
+            'sekretaris_photo' => 'nullable|image|mimes:jpeg,png,jpg,webp',
+            'bendahara_photo' => 'nullable|image|mimes:jpeg,png,jpg,webp',
         ]);
 
         $setting = Setting::firstOrCreate([]);
         
-        $data = $request->all();
+        $data = $request->except(['ketua_photo', 'sekretaris_photo', 'bendahara_photo']);
         // Checkboxes only send value if checked. If not present, it means false.
         $data['show_address'] = $request->has('show_address');
         $data['show_email'] = $request->has('show_email');
@@ -45,6 +48,16 @@ class AdminSettingController extends Controller
         $data['show_facebook'] = $request->has('show_facebook');
         $data['show_whatsapp'] = $request->has('show_whatsapp');
         $data['show_youtube'] = $request->has('show_youtube');
+
+        $photos = ['ketua_photo', 'sekretaris_photo', 'bendahara_photo'];
+        foreach ($photos as $photo) {
+            if ($request->hasFile($photo)) {
+                if ($setting->$photo) {
+                    \Illuminate\Support\Facades\Storage::disk('public')->delete($setting->$photo);
+                }
+                $data[$photo] = $request->file($photo)->store('pengurus', 'public');
+            }
+        }
 
         $setting->update($data);
 
