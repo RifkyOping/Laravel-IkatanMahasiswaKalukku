@@ -52,6 +52,8 @@ Route::middleware('auth')->group(function () {
 
     // Registrations Routes
     Route::post('admin/registrations/toggle-status', [App\Http\Controllers\AdminRegistrationController::class, 'toggleStatus'])->name('admin.registrations.toggleStatus');
+    Route::delete('admin/registrations/destroy-all', [App\Http\Controllers\AdminRegistrationController::class, 'destroyAll'])->name('admin.registrations.destroyAll');
+    Route::get('admin/registrations/export-csv', [App\Http\Controllers\AdminRegistrationController::class, 'exportCsv'])->name('admin.registrations.exportCsv');
     Route::resource('admin/registrations', App\Http\Controllers\AdminRegistrationController::class)->only(['index', 'show', 'destroy'])->names('admin.registrations');
 
     // Setting Routes

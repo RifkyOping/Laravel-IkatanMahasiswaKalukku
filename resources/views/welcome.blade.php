@@ -297,7 +297,13 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     @foreach ($news as $item)
                         @php
-                            $imagesArray = is_array($item->images) ? $item->images : [];
+                            $imagesArray = [];
+                            if (is_array($item->images)) {
+                                $imagesArray = $item->images;
+                            } elseif (is_string($item->images)) {
+                                $decoded = json_decode($item->images, true);
+                                $imagesArray = is_array($decoded) ? $decoded : [];
+                            }
                             $imageUrls = array_map(function($img) { return asset('storage/' . $img); }, $imagesArray);
                             $imagesJson = json_encode($imageUrls);
                         @endphp
