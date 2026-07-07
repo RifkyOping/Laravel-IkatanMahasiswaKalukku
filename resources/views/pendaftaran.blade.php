@@ -243,4 +243,48 @@
             animation: fade-in-up 0.5s ease-out forwards;
         }
     </style>
+
+    @if(session('registration_success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Swal.fire({
+                    title: 'Terima Kasih Telah Mendaftar!',
+                    text: '{{ session('success') }}',
+                    icon: 'success',
+                    showCancelButton: true,
+                    confirmButtonText: 'Gabung Grup WhatsApp',
+                    cancelButtonText: 'Tutup',
+                    buttonsStyling: false,
+                    customClass: {
+                        popup: 'rounded-[30px] shadow-2xl border border-gray-100 p-6',
+                        title: 'text-2xl font-black text-[#051F20] mt-4',
+                        htmlContainer: 'text-gray-500 mt-2',
+                        actions: 'mt-8 gap-4 flex w-full justify-center',
+                        confirmButton: 'px-8 py-3 bg-[#25D366] text-white font-bold rounded-full hover:bg-[#128C7E] transition-all duration-300',
+                        cancelButton: 'px-8 py-3 bg-gray-100 text-gray-700 font-bold rounded-full hover:bg-gray-200 transition-all duration-300'
+                    }
+                }).then((result) => {
+                    @if(session('whatsapp_link'))
+                        if (result.isConfirmed) {
+                            window.open('{{ session('whatsapp_link') }}', '_blank');
+                        }
+                    @else
+                        if (result.isConfirmed) {
+                            Swal.fire({
+                                title: 'Mohon Maaf',
+                                text: 'Link Grup WhatsApp belum tersedia saat ini.',
+                                icon: 'info',
+                                confirmButtonText: 'Tutup',
+                                buttonsStyling: false,
+                                customClass: {
+                                    popup: 'rounded-[30px]',
+                                    confirmButton: 'px-6 py-2 bg-blue-500 text-white rounded-full'
+                                }
+                            });
+                        }
+                    @endif
+                });
+            });
+        </script>
+    @endif
 @endsection

@@ -28,6 +28,20 @@ class AdminRegistrationController extends Controller
         return redirect()->back()->with('success', "Pendaftaran anggota telah $status.");
     }
 
+    public function updateWaLink(Request $request)
+    {
+        $request->validate([
+            'whatsapp_group_link' => 'required|url',
+        ]);
+
+        $setting = Setting::firstOrCreate([]);
+        $setting->update([
+            'whatsapp_group_link' => $request->whatsapp_group_link
+        ]);
+
+        return redirect()->back()->with('success', "Link Grup WhatsApp berhasil diperbarui.");
+    }
+
     public function show(Registration $registration)
     {
         return view('admin.registrations.show', compact('registration'));

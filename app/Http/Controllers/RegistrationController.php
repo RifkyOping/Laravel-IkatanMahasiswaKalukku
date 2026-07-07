@@ -11,7 +11,7 @@ class RegistrationController extends Controller
         $setting = \App\Models\Setting::firstOrCreate([]);
         
         if (!$setting->is_registration_open) {
-            return redirect('/')->with('error', 'Maaf, pendaftaran anggota IMK saat ini sedang ditutup.');
+            return redirect('/')->with('error', 'Maaf, pendaftaran anggota baru Ikatan Mahasiswa Kalukku saat ini sedang ditutup.');
         }
 
         return view('pendaftaran', compact('setting'));
@@ -53,6 +53,10 @@ class RegistrationController extends Controller
 
         \App\Models\Registration::create($validated);
 
-        return redirect()->back()->with('success', 'Pendaftaran berhasil dikirim! Silakan tunggu informasi selanjutnya dari pengurus.');
+        return redirect()->back()->with([
+            'success' => 'Pendaftaran berhasil dikirim! Silakan tunggu informasi selanjutnya dari pengurus.',
+            'registration_success' => true,
+            'whatsapp_link' => $setting->whatsapp_group_link
+        ]);
     }
 }

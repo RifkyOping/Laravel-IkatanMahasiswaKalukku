@@ -32,6 +32,7 @@ class Setting extends Model
         'ketua_name',
         'sekretaris_name',
         'bendahara_name',
+        'whatsapp_group_link',
     ];
 
     protected $casts = [

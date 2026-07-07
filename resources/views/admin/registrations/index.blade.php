@@ -57,6 +57,65 @@
                         </span>
                     </form>
 
+                    <!-- Tombol Atur Link Grup WA -->
+                    <button type="button" onclick="
+                        Swal.fire({
+                            title: 'Atur Link Grup WhatsApp',
+                            input: 'url',
+                            inputLabel: 'Masukkan Link Grup WhatsApp untuk Pendaftar Baru',
+                            inputValue: '{{ $setting->whatsapp_group_link ?? '' }}',
+                            showCancelButton: true,
+                            confirmButtonText: 'Simpan',
+                            cancelButtonText: 'Batal',
+                            inputValidator: (value) => {
+                                if (!value) {
+                                    return 'Link grup WhatsApp tidak boleh kosong!'
+                                }
+                            },
+                            customClass: {
+                                popup: 'rounded-[30px] shadow-2xl border border-gray-100 p-6',
+                                title: 'text-2xl font-black text-[#051F20] mt-4',
+                                htmlContainer: 'text-gray-500 mt-2 font-medium',
+                                actions: 'mt-8 gap-4 flex w-full justify-center',
+                                confirmButton: 'px-8 py-3 bg-emerald-500 text-white font-bold rounded-full hover:bg-emerald-600 transition-all duration-300',
+                                cancelButton: 'px-8 py-3 bg-gray-100 text-gray-700 font-bold rounded-full hover:bg-gray-200 transition-all duration-300',
+                                input: '!w-full !mx-0 px-4 py-3 mt-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors shadow-sm'
+                            }
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                const form = document.createElement('form');
+                                form.method = 'POST';
+                                form.action = '{{ route('admin.registrations.updateWaLink') }}';
+                                
+                                const csrfToken = document.createElement('input');
+                                csrfToken.type = 'hidden';
+                                csrfToken.name = '_token';
+                                csrfToken.value = '{{ csrf_token() }}';
+                                form.appendChild(csrfToken);
+                                
+                                const method = document.createElement('input');
+                                method.type = 'hidden';
+                                method.name = '_method';
+                                method.value = 'PUT';
+                                form.appendChild(method);
+                                
+                                const linkInput = document.createElement('input');
+                                linkInput.type = 'hidden';
+                                linkInput.name = 'whatsapp_group_link';
+                                linkInput.value = result.value;
+                                form.appendChild(linkInput);
+                                
+                                document.body.appendChild(form);
+                                form.submit();
+                            }
+                        });
+                    " class="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-5 py-3 rounded-[20px] font-bold shadow-sm transition-all duration-300" title="Atur Link Grup WA">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                        </svg>
+                        Link WA
+                    </button>
+
                     <!-- Tombol Ekspor CSV -->
                     @if($registrations->total() > 0)
                     <button type="button" onclick="
@@ -72,12 +131,12 @@
                             buttonsStyling: false,
                             customClass: {
                                 popup: 'rounded-[30px] shadow-2xl border border-gray-100 p-6',
-                                title: 'text-xl font-black text-[#051F20] mt-4',
-                                htmlContainer: 'text-gray-500 mt-2 text-sm',
-                                actions: 'mt-6 gap-3 flex w-full justify-center flex-wrap',
-                                confirmButton: 'px-6 py-2.5 bg-emerald-500 text-white font-bold rounded-full hover:bg-emerald-600 transition-all duration-300',
-                                denyButton: 'px-6 py-2.5 bg-blue-500 text-white font-bold rounded-full hover:bg-blue-600 transition-all duration-300',
-                                cancelButton: 'px-6 py-2.5 bg-gray-100 text-gray-700 font-bold rounded-full hover:bg-gray-200 transition-all duration-300'
+                                title: 'text-2xl font-black text-[#051F20] mt-4',
+                                htmlContainer: 'text-gray-500 mt-2',
+                                actions: 'mt-8 gap-3 flex w-full justify-center',
+                                confirmButton: 'px-6 py-3 bg-emerald-500 text-white font-bold rounded-full hover:bg-emerald-600 transition-all duration-300',
+                                denyButton: 'px-6 py-3 bg-blue-500 text-white font-bold rounded-full hover:bg-blue-600 transition-all duration-300',
+                                cancelButton: 'px-6 py-3 bg-gray-100 text-gray-700 font-bold rounded-full hover:bg-gray-200 transition-all duration-300'
                             }
                         }).then((result) => {
                             if (result.isConfirmed) {
