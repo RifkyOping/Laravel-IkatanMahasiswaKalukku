@@ -1,6 +1,6 @@
 <section>
     <header>
-        <h2 class="text-lg font-bold text-[#051F20]">
+        <h2 class="text-base font-bold text-imk-600">
             Informasi Profil
         </h2>
 
@@ -29,17 +29,17 @@
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
-                <div>
-                    <p class="text-sm mt-2 text-gray-800">
+                <div class="mt-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3">
+                    <p class="text-sm text-gray-800">
                         Alamat email Anda belum diverifikasi.
 
-                        <button form="send-verification" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-imk-500">
-                            Klik di sini untuk mengirim ulang email verifikasi.
+                        <button form="send-verification" class="rounded-md font-semibold text-imk-600 underline hover:text-imk-500 focus:outline-none focus:ring-2 focus:ring-imk-300 focus:ring-offset-2">
+                            Kirim ulang email verifikasi.
                         </button>
                     </p>
 
                     @if (session('status') === 'verification-link-sent')
-                        <p class="mt-2 font-medium text-sm text-emerald-600">
+                        <p class="mt-2 text-sm font-medium text-emerald-600">
                             Tautan verifikasi baru telah dikirim ke alamat email Anda.
                         </p>
                     @endif
@@ -56,7 +56,7 @@
                     x-show="show"
                     x-transition
                     x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-emerald-600 font-medium"
+                    class="text-sm font-medium text-emerald-600"
                 >Berhasil disimpan.</p>
             @endif
         </div>

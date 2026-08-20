@@ -1,6 +1,6 @@
 <section>
     <header>
-        <h2 class="text-lg font-bold text-[#051F20]">
+        <h2 class="text-base font-bold text-imk-600">
             Ubah Kata Sandi
         </h2>
 
@@ -40,7 +40,7 @@
                     x-show="show"
                     x-transition
                     x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-emerald-600 font-medium"
+                    class="text-sm font-medium text-emerald-600"
                 >Berhasil disimpan.</p>
             @endif
         </div>
