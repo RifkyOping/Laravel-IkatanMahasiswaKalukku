@@ -1,123 +1,171 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex items-center gap-4">
-            <a href="{{ route('admin.news.index') }}"
-                class="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="flex items-center gap-3">
+            <a href="{{ route('admin.news.index') }}" title="Kembali"
+                class="inline-flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-imk-50 text-imk-600 transition hover:bg-imk-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-imk-400 focus-visible:ring-offset-2">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                 </svg>
             </a>
-            <h2 class="font-black text-3xl text-[#051F20] leading-tight">
-                {{ __('Edit Berita') }}
-            </h2>
+            <div class="min-w-0">
+                <h2 class="text-2xl font-black leading-tight text-imk-600 sm:text-3xl">Edit Berita</h2>
+                <p class="mt-1 truncate text-sm text-gray-600">{{ $news->title }}</p>
+            </div>
         </div>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white rounded-[39px] shadow-xl p-10 md:p-12 relative overflow-hidden">
-                <form action="{{ route('admin.news.update', $news->id) }}" method="POST" enctype="multipart/form-data"
-                    class="space-y-8 relative z-10">
-                    @csrf
-                    @method('PUT')
+    <div class="py-8">
+        <div class="mx-auto max-w-3xl space-y-6 px-4 sm:px-6 lg:px-8">
 
+            @if ($errors->any())
+                <div class="flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 px-4 py-3">
+                    <svg class="mt-0.5 h-5 w-5 flex-shrink-0 text-red-600" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
                     <div>
-                        <label for="title" class="block text-sm font-bold text-gray-700 mb-2">Judul Berita</label>
+                        <p class="text-sm font-bold text-red-800">Ada isian yang perlu diperbaiki.</p>
+                        <ul class="mt-1 list-inside list-disc space-y-0.5 text-xs text-red-700">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            @endif
+
+            <form action="{{ route('admin.news.update', $news->id) }}" method="POST" enctype="multipart/form-data"
+                class="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm">
+                @csrf
+                @method('PUT')
+
+                <div class="border-b border-gray-100 px-5 py-4 sm:px-7">
+                    <h3 class="text-base font-bold text-imk-600">Detail Berita</h3>
+                    <p class="mt-0.5 text-xs text-gray-600">Kolom bertanda <span class="text-red-600">*</span> wajib
+                        diisi</p>
+                </div>
+
+                <div class="space-y-5 px-5 py-6 sm:px-7">
+                    <div>
+                        <label for="title" class="mb-1.5 block text-sm font-bold text-gray-800">
+                            Judul Berita <span class="text-red-600">*</span>
+                        </label>
                         <input type="text" name="title" id="title" value="{{ old('title', $news->title) }}" required
-                            class="block w-full border-gray-200 focus:border-imk-400 focus:ring-imk-400 rounded-2xl shadow-sm text-gray-700 p-4 bg-gray-50 hover:bg-white transition-colors">
+                            class="w-full rounded-xl border-gray-300 text-sm focus:border-imk-500 focus:ring-imk-300">
                         @error('title')
-                            <p class="text-red-500 text-sm mt-2 flex items-center gap-1"><svg class="w-4 h-4" fill="none"
-                                    stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg> {{ $message }}</p>
+                            <p class="mt-1.5 text-xs font-medium text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <div>
-                        <label for="source_link" class="block text-sm font-bold text-gray-700 mb-2">Sumber Berita / Link
-                            Asli (Opsional)</label>
+                        <label for="content" class="mb-1.5 block text-sm font-bold text-gray-800">
+                            Isi Konten <span class="text-red-600">*</span>
+                        </label>
+                        <textarea name="content" id="content" rows="10" required
+                            class="w-full rounded-xl border-gray-300 text-sm leading-relaxed focus:border-imk-500 focus:ring-imk-300">{{ old('content', $news->content) }}</textarea>
+                        @error('content')
+                            <p class="mt-1.5 text-xs font-medium text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <label for="source_link" class="mb-1.5 block text-sm font-bold text-gray-800">Sumber Berita /
+                            Link Asli</label>
                         <input type="url" name="source_link" id="source_link"
                             value="{{ old('source_link', $news->source_link) }}"
-                            class="block w-full border-gray-200 focus:border-imk-400 focus:ring-imk-400 rounded-2xl shadow-sm text-gray-700 p-4 bg-gray-50 hover:bg-white transition-colors"
+                            class="w-full rounded-xl border-gray-300 text-sm focus:border-imk-500 focus:ring-imk-300"
                             placeholder="https://contoh.com/berita-asli">
+                        <p class="mt-1.5 text-xs text-gray-600">Opsional. Isi bila berita ini bersumber dari situs lain.
+                        </p>
                         @error('source_link')
-                            <p class="text-red-500 text-sm mt-2 flex items-center gap-1"><svg class="w-4 h-4" fill="none"
-                                    stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg> {{ $message }}</p>
+                            <p class="mt-1.5 text-xs font-medium text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <div>
-                        <label for="content" class="block text-sm font-bold text-gray-700 mb-2">Isi Konten</label>
-                        <textarea name="content" id="content" rows="8" required
-                            class="block w-full border-gray-200 focus:border-imk-400 focus:ring-imk-400 rounded-2xl shadow-sm text-gray-700 p-4 bg-gray-50 hover:bg-white transition-colors">{{ old('content', $news->content) }}</textarea>
-                        @error('content')
-                            <p class="text-red-500 text-sm mt-2 flex items-center gap-1"><svg class="w-4 h-4" fill="none"
-                                    stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg> {{ $message }}</p>
-                        @enderror
-                    </div>
+                        <span class="mb-1.5 block text-sm font-bold text-gray-800">Gambar Berita</span>
 
-                    <div>
-                        <label for="images" class="block text-sm font-bold text-gray-700 mb-2">Gambar Berita (Maksimal 3
-                            Gambar)</label>
-
-                        @if($news->images && is_array($news->images))
-                            <div class="mb-4 flex gap-4 flex-wrap">
-                                @foreach($news->images as $img)
-                                    <div class="relative group w-fit">
-                                        <img src="{{ asset('storage/' . $img) }}" alt="Preview"
-                                            class="w-32 h-32 object-cover rounded-2xl shadow-md border-4 border-gray-50">
-                                    </div>
-                                @endforeach
+                        @if ($news->images && is_array($news->images) && count($news->images))
+                            <div class="mb-3">
+                                <p class="mb-2 text-xs font-bold uppercase tracking-wider text-gray-600">Gambar saat ini
+                                </p>
+                                <div class="flex flex-wrap gap-3">
+                                    @foreach ($news->images as $img)
+                                        <img src="{{ asset('storage/' . $img) }}" alt="Gambar berita"
+                                            class="h-24 w-24 rounded-xl object-cover ring-1 ring-gray-200 sm:h-28 sm:w-28">
+                                    @endforeach
+                                </div>
                             </div>
                         @endif
 
-                        <div
-                            class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-2xl bg-gray-50 hover:bg-gray-100 transition-colors relative group">
-                            <div class="space-y-1 text-center">
-                                <svg class="mx-auto h-12 w-12 text-gray-400 group-hover:text-imk-500 transition-colors"
-                                    stroke="currentColor" fill="none" viewBox="0 0 48 48">
-                                    <path
-                                        d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                                <div class="flex text-sm text-gray-600 justify-center">
-                                    <label for="images"
-                                        class="relative cursor-pointer bg-white rounded-md font-medium text-imk-600 hover:text-imk-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-imk-500 p-1 px-2">
-                                        <span>Ganti file</span>
-                                        <input id="images" name="images[]" type="file" multiple accept="image/*"
-                                            class="sr-only">
-                                    </label>
-                                </div>
-                                <p class="text-xs text-gray-500 mt-2">Biarkan kosong jika tidak ingin mengubah
-                                    gambar.<br>Jika diunggah, akan menimpa seluruh gambar lama.</p>
+                        <div x-data="{ over: false, files: [], max: 3, pick(list) { this.files = Array.from(list).map(f => ({ name: f.name, size: (f.size / 1048576).toFixed(2) })) }, drop(e) { this.over = false; this.$refs.input.files = e.dataTransfer.files; this.pick(this.$refs.input.files) } }"
+                            @dragover.prevent="over = true" @dragleave.prevent="over = false"
+                            @drop.prevent="drop($event)"
+                            :class="over ? 'border-imk-500 bg-imk-50' : 'border-gray-300 bg-gray-50'"
+                            class="rounded-xl border-2 border-dashed px-5 py-6 text-center transition-colors">
+
+                            <svg class="mx-auto h-10 w-10 text-gray-400" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+
+                            <div class="mt-2 flex flex-wrap items-center justify-center gap-1 text-sm">
+                                <button type="button" @click="$refs.input.click()"
+                                    class="rounded-lg bg-white px-2.5 py-1 font-bold text-imk-600 ring-1 ring-gray-200 transition hover:bg-imk-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-imk-400">
+                                    Ganti berkas
+                                </button>
+                                <span class="text-gray-600">atau tarik ke sini</span>
                             </div>
+
+                            <input id="images" name="images[]" type="file" multiple accept="image/*" class="sr-only"
+                                x-ref="input" @change="pick($event.target.files)">
+
+                            <p class="mt-2 text-xs text-gray-600">Biarkan kosong bila tidak ingin mengubah gambar.</p>
+                            <p class="mt-1 text-xs font-medium text-amber-700">Jika diunggah, seluruh gambar lama akan
+                                diganti.</p>
+
+                            <template x-if="files.length">
+                                <ul class="mt-3 space-y-1.5 text-left">
+                                    <template x-for="(f, i) in files" :key="i">
+                                        <li
+                                            class="flex items-center justify-between gap-3 rounded-lg bg-white px-3 py-2 text-xs ring-1 ring-gray-100">
+                                            <span class="truncate font-medium text-gray-800" x-text="f.name"></span>
+                                            <span class="flex-shrink-0 tabular-nums text-gray-600"
+                                                x-text="f.size + ' MB'"></span>
+                                        </li>
+                                    </template>
+                                </ul>
+                            </template>
+
+                            <template x-if="files.length > max">
+                                <p class="mt-2 text-xs font-bold text-red-600">
+                                    Anda memilih <span x-text="files.length"></span> berkas. Maksimal <span
+                                        x-text="max"></span> berkas.
+                                </p>
+                            </template>
                         </div>
+
                         @error('images')
-                            <p class="text-red-500 text-sm mt-2 flex items-center gap-1"><svg class="w-4 h-4" fill="none"
-                                    stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg> {{ $message }}</p>
+                            <p class="mt-1.5 text-xs font-medium text-red-600">{{ $message }}</p>
+                        @enderror
+                        @error('images.*')
+                            <p class="mt-1.5 text-xs font-medium text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
+                </div>
 
-                    <div class="pt-4 flex items-center gap-4 border-t border-gray-100">
-                        <button type="submit"
-                            class="px-8 py-3 bg-imk-600 text-white font-bold rounded-full hover:bg-imk-700 shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5">Perbarui
-                            Berita</button>
-                        <a href="{{ route('admin.news.index') }}"
-                            class="px-8 py-3 text-gray-600 font-bold bg-gray-100 hover:bg-gray-200 rounded-full transition-all duration-300">Batal</a>
-                    </div>
-                </form>
-            </div>
+                <div
+                    class="flex flex-col-reverse gap-2 border-t border-gray-100 bg-gray-50 px-5 py-4 sm:flex-row sm:justify-end sm:px-7">
+                    <a href="{{ route('admin.news.index') }}"
+                        class="rounded-xl bg-white px-5 py-2.5 text-center text-sm font-bold text-gray-800 ring-1 ring-gray-200 transition hover:bg-gray-100">Batal</a>
+                    <button type="submit"
+                        class="rounded-xl bg-imk-600 px-5 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-imk-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-imk-400 focus-visible:ring-offset-2">Perbarui
+                        Berita</button>
+                </div>
+            </form>
         </div>
     </div>
 </x-app-layout>
