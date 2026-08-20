@@ -20,7 +20,9 @@
                 </div>
             @endif
 
-            {{-- Kartu kontrol: status pendaftaran + aksi massal --}}
+            {{-- Kartu kontrol: status pendaftaran + aksi massal.
+                 Hirarki warna tombol: hijau WhatsApp untuk aksi bermerek,
+                 putih untuk aksi sekunder, merah outline untuk aksi destruktif. --}}
             <div class="rounded-2xl border border-gray-100 bg-white p-4 shadow-sm sm:p-5">
                 <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
 
@@ -29,7 +31,8 @@
                         @csrf
                         <div class="min-w-0">
                             <p class="text-xs font-bold uppercase tracking-wider text-gray-600">Status Pendaftaran</p>
-                            <p class="mt-0.5 text-sm font-black {{ $setting->is_registration_open ? 'text-emerald-600' : 'text-red-600' }}">
+                            <p class="mt-0.5 inline-flex items-center gap-1.5 text-sm font-black {{ $setting->is_registration_open ? 'text-emerald-600' : 'text-red-600' }}">
+                                <span class="inline-block h-2 w-2 rounded-full {{ $setting->is_registration_open ? 'bg-emerald-500' : 'bg-red-500' }}"></span>
                                 {{ $setting->is_registration_open ? 'DIBUKA' : 'DITUTUP' }}
                             </p>
                         </div>
@@ -39,7 +42,7 @@
                             <input id="toggleRegistration" type="checkbox" name="is_registration_open" value="1"
                                 {{ $setting->is_registration_open ? 'checked' : '' }} class="peer sr-only">
                             <div
-                                class="peer h-6 w-11 rounded-full bg-red-500 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-emerald-500 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-emerald-400">
+                                class="peer h-6 w-11 rounded-full bg-red-500 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-emerald-500 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus-visible:outline-none peer-focus-visible:ring-2 peer-focus-visible:ring-emerald-400 peer-focus-visible:ring-offset-2">
                             </div>
                         </label>
                     </form>
@@ -48,10 +51,9 @@
                         <button type="button" id="btnWaLink"
                             data-current="{{ $setting->whatsapp_group_link ?? '' }}"
                             data-action="{{ route('admin.registrations.updateWaLink') }}"
-                            class="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-blue-500 sm:flex-none">
-                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                            class="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-emerald-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2 sm:flex-none">
+                            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 004.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.8 14.03c-.24.68-1.42 1.31-1.96 1.36-.54.05-1.04.24-3.5-.73-2.96-1.17-4.83-4.24-4.98-4.44-.15-.2-1.2-1.6-1.2-3.05 0-1.45.76-2.16 1.03-2.46.27-.3.59-.37.78-.37.19 0 .39 0 .56.01.18.01.42-.07.66.5.24.58.83 2.02.9 2.17.07.15.12.32.02.51-.1.2-.15.32-.29.5-.15.17-.31.39-.44.52-.15.15-.3.31-.13.6.17.3.76 1.25 1.63 2.03 1.12 1 2.06 1.31 2.35 1.46.29.15.46.13.63-.08.17-.2.73-.85.93-1.14.2-.29.39-.24.66-.15.27.1 1.71.81 2 .96.29.15.49.22.56.34.07.13.07.76-.17 1.44z" />
                             </svg>
                             Link WA
                         </button>
@@ -60,7 +62,7 @@
                             <button type="button" id="btnExportCsv"
                                 data-url-comma="{{ route('admin.registrations.exportCsv') }}?separator=comma"
                                 data-url-semicolon="{{ route('admin.registrations.exportCsv') }}?separator=semicolon"
-                                class="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-emerald-500 sm:flex-none">
+                                class="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-bold text-imk-600 shadow-sm ring-1 ring-gray-200 transition hover:bg-imk-50 hover:ring-imk-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-imk-400 focus-visible:ring-offset-2 sm:flex-none">
                                 <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -73,7 +75,7 @@
                                 @csrf
                                 @method('DELETE')
                                 <button type="button" id="btnDeleteAll"
-                                    class="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-2.5 text-sm font-bold text-red-600 shadow-sm transition hover:bg-red-600 hover:text-white">
+                                    class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-bold text-red-600 shadow-sm ring-1 ring-red-200 transition hover:bg-red-600 hover:text-white hover:ring-red-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2">
                                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -94,27 +96,29 @@
                 </div>
 
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left">
-                        <thead class="bg-gray-50/80">
+                    {{-- min-w-full (bukan w-full) supaya sel tidak dipaksa menyusut
+                         dan overflow-x-auto benar-benar bisa digeser di ponsel. --}}
+                    <table class="min-w-full text-left">
+                        <thead class="border-b border-imk-100 bg-imk-50">
                             <tr>
-                                <th class="hidden w-14 px-4 py-3 text-xs font-bold uppercase tracking-wider text-gray-600 sm:table-cell sm:px-5">
+                                <th class="hidden w-14 px-4 py-3.5 text-[11px] font-bold uppercase tracking-wider text-imk-500 sm:table-cell sm:px-5">
                                     No</th>
-                                <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-gray-600 sm:px-5">
+                                <th class="px-4 py-3.5 text-[11px] font-bold uppercase tracking-wider text-imk-500 sm:px-5">
                                     Nama Lengkap</th>
-                                <th class="hidden px-5 py-3 text-xs font-bold uppercase tracking-wider text-gray-600 xl:table-cell">
+                                <th class="hidden whitespace-nowrap px-5 py-3.5 text-[11px] font-bold uppercase tracking-wider text-imk-500 xl:table-cell">
                                     Jenis Kelamin</th>
-                                <th class="hidden px-5 py-3 text-xs font-bold uppercase tracking-wider text-gray-600 md:table-cell">
+                                <th class="hidden px-5 py-3.5 text-[11px] font-bold uppercase tracking-wider text-imk-500 md:table-cell">
                                     Universitas</th>
-                                <th class="hidden px-5 py-3 text-xs font-bold uppercase tracking-wider text-gray-600 lg:table-cell">
+                                <th class="hidden whitespace-nowrap px-5 py-3.5 text-[11px] font-bold uppercase tracking-wider text-imk-500 lg:table-cell">
                                     Tanggal Daftar</th>
-                                <th class="w-28 px-4 py-3 text-center text-xs font-bold uppercase tracking-wider text-gray-600 sm:px-5">
+                                <th class="w-28 px-4 py-3.5 text-center text-[11px] font-bold uppercase tracking-wider text-imk-500 sm:px-5">
                                     Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100">
                             @forelse ($registrations as $index => $registration)
-                                <tr class="transition-colors hover:bg-gray-50">
-                                    <td class="hidden px-4 py-4 text-sm font-medium text-gray-600 sm:table-cell sm:px-5">
+                                <tr class="align-middle transition-colors hover:bg-imk-50/50">
+                                    <td class="hidden px-4 py-4 text-sm font-medium tabular-nums text-gray-600 sm:table-cell sm:px-5">
                                         {{ $registrations->firstItem() + $index }}</td>
 
                                     <td class="px-4 py-4 sm:px-5">
@@ -134,21 +138,30 @@
                                         </div>
                                     </td>
 
-                                    <td class="hidden whitespace-nowrap px-5 py-4 text-sm text-gray-600 xl:table-cell">
-                                        {{ $registration->gender }}</td>
+                                    <td class="hidden whitespace-nowrap px-5 py-4 xl:table-cell">
+                                        @if ($registration->gender === 'Perempuan')
+                                            <span
+                                                class="inline-flex items-center rounded-full border border-rose-100 bg-rose-50 px-2.5 py-1 text-xs font-bold text-rose-700">Perempuan</span>
+                                        @elseif ($registration->gender)
+                                            <span
+                                                class="inline-flex items-center rounded-full border border-sky-100 bg-sky-50 px-2.5 py-1 text-xs font-bold text-sky-700">{{ $registration->gender }}</span>
+                                        @else
+                                            <span class="text-sm text-gray-600">&mdash;</span>
+                                        @endif
+                                    </td>
 
                                     <td class="hidden max-w-xs px-5 py-4 text-sm text-gray-600 md:table-cell">
                                         <span class="block truncate">{{ $registration->university }}</span>
                                     </td>
 
-                                    <td class="hidden whitespace-nowrap px-5 py-4 text-sm text-gray-600 lg:table-cell">
+                                    <td class="hidden whitespace-nowrap px-5 py-4 text-sm tabular-nums text-gray-600 lg:table-cell">
                                         {{ $registration->created_at?->format('d M Y') }}</td>
 
                                     <td class="px-4 py-4 sm:px-5">
                                         <div class="flex items-center justify-center gap-2">
                                             <a href="{{ route('admin.registrations.show', $registration->id) }}"
                                                 title="Lihat detail"
-                                                class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600 transition hover:bg-blue-100 hover:text-blue-700">
+                                                class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-imk-50 text-imk-600 transition hover:bg-imk-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-imk-400 focus-visible:ring-offset-2">
                                                 <svg class="h-5 w-5" fill="none" stroke="currentColor"
                                                     viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -164,7 +177,7 @@
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" title="Hapus"
-                                                    class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-red-50 text-red-600 transition hover:bg-red-100 hover:text-red-700">
+                                                    class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-red-50 text-red-600 transition hover:bg-red-100 hover:text-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2">
                                                     <svg class="h-5 w-5" fill="none" stroke="currentColor"
                                                         viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -232,7 +245,7 @@
                         buttonsStyling: false,
                         customClass: {
                             ...baseClasses,
-                            confirmButton: confirmBtn('bg-emerald-600 hover:bg-emerald-500')
+                            confirmButton: confirmBtn('bg-imk-600 hover:bg-imk-500')
                         }
                     }).then((result) => {
                         if (result.isConfirmed) {
@@ -259,7 +272,7 @@
                         buttonsStyling: false,
                         customClass: {
                             ...baseClasses,
-                            confirmButton: confirmBtn('bg-imk-600 hover:bg-imk-500')
+                            confirmButton: confirmBtn('bg-emerald-600 hover:bg-emerald-500')
                         },
                         inputValidator: (value) => {
                             if (!value) {
@@ -309,8 +322,8 @@
                         buttonsStyling: false,
                         customClass: {
                             ...baseClasses,
-                            confirmButton: confirmBtn('bg-emerald-600 hover:bg-emerald-500'),
-                            denyButton: confirmBtn('bg-blue-600 hover:bg-blue-500')
+                            confirmButton: confirmBtn('bg-imk-600 hover:bg-imk-500'),
+                            denyButton: confirmBtn('bg-emerald-600 hover:bg-emerald-500')
                         }
                     }).then((result) => {
                         if (result.isConfirmed) {

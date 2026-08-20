@@ -7,7 +7,7 @@
             </div>
 
             <a href="{{ route('admin.galleries.create') }}"
-                class="inline-flex items-center gap-2 rounded-xl bg-imk-600 px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-imk-500 focus:outline-none focus:ring-2 focus:ring-imk-400 focus:ring-offset-2">
+                class="inline-flex items-center gap-2 rounded-xl bg-imk-600 px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-imk-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-imk-400 focus-visible:ring-offset-2">
                 <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                 </svg>
@@ -39,30 +39,30 @@
                 </div>
 
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left">
-                        <thead class="bg-gray-50/80">
+                    <table class="min-w-full text-left">
+                        <thead class="border-b border-imk-100 bg-imk-50">
                             <tr>
-                                <th class="hidden w-14 px-4 py-3 text-xs font-bold uppercase tracking-wider text-gray-600 sm:table-cell sm:px-5">
+                                <th class="hidden w-14 px-4 py-3.5 text-[11px] font-bold uppercase tracking-wider text-imk-500 sm:table-cell sm:px-5">
                                     No</th>
-                                <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-gray-600 sm:px-5">
+                                <th class="px-4 py-3.5 text-[11px] font-bold uppercase tracking-wider text-imk-500 sm:px-5">
                                     Judul &amp; Foto</th>
-                                <th class="hidden px-5 py-3 text-xs font-bold uppercase tracking-wider text-gray-600 md:table-cell">
+                                <th class="hidden whitespace-nowrap px-5 py-3.5 text-[11px] font-bold uppercase tracking-wider text-imk-500 md:table-cell">
                                     Tanggal Kegiatan</th>
-                                <th class="w-28 px-4 py-3 text-center text-xs font-bold uppercase tracking-wider text-gray-600 sm:px-5">
+                                <th class="w-28 px-4 py-3.5 text-center text-[11px] font-bold uppercase tracking-wider text-imk-500 sm:px-5">
                                     Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100">
                             @forelse ($galleries as $item)
-                                <tr class="transition-colors hover:bg-gray-50">
-                                    <td class="hidden px-4 py-4 text-sm font-medium text-gray-600 sm:table-cell sm:px-5">
+                                <tr class="align-middle transition-colors hover:bg-imk-50/50">
+                                    <td class="hidden px-4 py-4 text-sm font-medium tabular-nums text-gray-600 sm:table-cell sm:px-5">
                                         {{ $loop->iteration }}</td>
 
                                     <td class="px-4 py-4 sm:px-5">
                                         <div class="flex items-center gap-3">
                                             @if ($item->images && is_array($item->images) && count($item->images) > 0)
                                                 <img src="{{ asset('storage/' . $item->images[0]) }}" alt=""
-                                                    class="h-12 w-16 flex-shrink-0 rounded-xl object-cover sm:h-16 sm:w-20">
+                                                    class="h-12 w-16 flex-shrink-0 rounded-xl object-cover ring-1 ring-gray-100 sm:h-16 sm:w-20">
                                             @else
                                                 <div
                                                     class="flex h-12 w-16 flex-shrink-0 items-center justify-center rounded-xl bg-gray-100 text-gray-400 sm:h-16 sm:w-20">
@@ -84,14 +84,14 @@
                                         </div>
                                     </td>
 
-                                    <td class="hidden whitespace-nowrap px-5 py-4 text-sm text-gray-600 md:table-cell">
+                                    <td class="hidden whitespace-nowrap px-5 py-4 text-sm tabular-nums text-gray-600 md:table-cell">
                                         {{ $item->date ? \Carbon\Carbon::parse($item->date)->format('d M Y') : '—' }}
                                     </td>
 
                                     <td class="px-4 py-4 sm:px-5">
                                         <div class="flex items-center justify-center gap-2">
                                             <a href="{{ route('admin.galleries.edit', $item->id) }}" title="Edit"
-                                                class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600 transition hover:bg-blue-100 hover:text-blue-700">
+                                                class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-imk-50 text-imk-600 transition hover:bg-imk-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-imk-400 focus-visible:ring-offset-2">
                                                 <svg class="h-5 w-5" fill="none" stroke="currentColor"
                                                     viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -105,7 +105,7 @@
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" title="Hapus"
-                                                    class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-red-50 text-red-600 transition hover:bg-red-100 hover:text-red-700">
+                                                    class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-red-50 text-red-600 transition hover:bg-red-100 hover:text-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2">
                                                     <svg class="h-5 w-5" fill="none" stroke="currentColor"
                                                         viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
