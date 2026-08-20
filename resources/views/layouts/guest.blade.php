@@ -161,49 +161,49 @@
             </div>
         </div>
 
-        <!-- pt-40: ruang aman untuk logo yang melayang di atas kartu -->
-        <main class="scene relative z-20 flex min-h-screen items-center justify-center px-4 pb-20 pt-40">
+        <!-- pt-36: ruang aman untuk logo yang melayang di atas kartu -->
+        <main class="scene relative z-20 flex min-h-screen items-center justify-center px-4 pb-16 pt-36">
             <div x-data="tilt3d"
                     x-on:mousemove="move($event)"
                     x-on:mouseleave="leave()"
-                    class="preserve-3d w-full sm:max-w-md">
+                    class="preserve-3d w-full sm:max-w-sm">
 
                 <div class="tilt preserve-3d relative"
                         :class="active ? 'tilt--active' : ''"
                         :style="`--rx: ${rx}deg; --ry: ${ry}deg`">
 
                     <!-- Lapisan cahaya & bayangan di belakang kartu -->
-                    <div class="pointer-events-none absolute -inset-8 rounded-[46px] bg-imk-200/20 blur-3xl" style="transform: translateZ(-80px)"></div>
-                    <div class="pointer-events-none absolute -bottom-10 left-1/2 h-24 w-4/5 rounded-full bg-black/60 blur-2xl" style="transform: translate3d(-50%, 0, -120px)"></div>
+                    <div class="pointer-events-none absolute -inset-6 rounded-[40px] bg-imk-200/20 blur-3xl" style="transform: translateZ(-80px)"></div>
+                    <div class="pointer-events-none absolute -bottom-8 left-1/2 h-20 w-4/5 rounded-full bg-black/60 blur-2xl" style="transform: translate3d(-50%, 0, -120px)"></div>
 
                     <!-- Kartu (tanpa overflow-hidden: overflow selain visible memaksa preserve-3d jadi flat) -->
-                    <div class="preserve-3d relative rounded-[32px] border border-white/70 bg-white/95 px-8 pb-10 pt-24 shadow-[0_60px_120px_-30px_rgba(0,0,0,.75)]">
+                    <div class="preserve-3d relative rounded-[26px] border border-white/70 bg-white/95 px-7 pb-8 pt-20 shadow-[0_50px_100px_-28px_rgba(0,0,0,.75)]">
 
                         <!-- Lapisan dekoratif kartu: dijepit di sini, bukan di kartu -->
-                        <div class="pointer-events-none absolute inset-0 z-0 overflow-hidden rounded-[32px]">
+                        <div class="pointer-events-none absolute inset-0 z-0 overflow-hidden rounded-[26px]">
                             <div class="absolute inset-0 opacity-0 transition-opacity duration-300"
                                     :class="active ? 'opacity-100' : ''"
-                                    :style="`background: radial-gradient(520px circle at ${gx}% ${gy}%, rgba(255,255,255,.6), transparent 45%)`"></div>
-                            <div class="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-imk-100/70 to-transparent"></div>
+                                    :style="`background: radial-gradient(440px circle at ${gx}% ${gy}%, rgba(255,255,255,.6), transparent 45%)`"></div>
+                            <div class="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-imk-100/70 to-transparent"></div>
                         </div>
 
                         <div class="relative z-10 text-center" style="transform: translateZ(40px)">
-                            <p class="text-[11px] font-bold uppercase tracking-[.3em] text-imk-200">Ikatan Mahasiswa Kalukku</p>
-                            <h2 class="mt-2 text-3xl font-black tracking-tight text-imk-600">Selamat Datang</h2>
-                            <p class="mt-1 text-sm text-gray-500">Silakan masuk ke akun Anda</p>
+                            <p class="text-[10px] font-bold uppercase tracking-[.28em] text-imk-200">Ikatan Mahasiswa Kalukku</p>
+                            <h2 class="mt-1.5 text-2xl font-black tracking-tight text-imk-600">Selamat Datang</h2>
+                            <p class="mt-1 text-xs text-gray-500">Silakan masuk ke akun Anda</p>
                         </div>
 
-                        <div class="preserve-3d relative z-10 mt-8">
+                        <div class="preserve-3d relative z-10 mt-6">
                             {{ $slot }}
                         </div>
                     </div>
 
                     <!-- Logo melayang di atas kartu -->
-                    <a href="/" class="group absolute left-1/2 top-0 z-30 h-32 w-32" style="transform: translate3d(-50%, -50%, 70px)">
+                    <a href="/" class="group absolute left-1/2 top-0 z-30 h-28 w-28" style="transform: translate3d(-50%, -50%, 70px)">
                         <span class="pointer-events-none relative flex h-full w-full items-center justify-center">
                             <span class="ring-spin absolute inset-0 rounded-full border-2 border-dashed border-imk-200/70"></span>
                             <span class="absolute inset-1 rounded-full bg-gradient-to-br from-white to-imk-100 shadow-[0_25px_45px_-15px_rgba(5,31,32,.75)] transition-transform duration-300 group-hover:scale-105"></span>
-                            <img src="{{ asset('image/logo.png') }}" alt="Logo IMK" class="relative h-[5.5rem] w-[5.5rem] object-contain drop-shadow-lg">
+                            <img src="{{ asset('image/logo.png') }}" alt="Logo IMK" class="relative h-[4.75rem] w-[4.75rem] object-contain drop-shadow-lg">
                         </span>
                     </a>
                 </div>
