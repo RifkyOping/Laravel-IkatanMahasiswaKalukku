@@ -7,10 +7,10 @@
 
         <!-- Email Address -->
         <div class="relative z-10">
-            <x-input-label for="email" value="Email" class="ms-1 text-xs uppercase tracking-wider text-imk-400" />
+            <x-input-label for="email" value="Email" class="ms-1 !text-xs uppercase tracking-wider !text-imk-400" />
 
             <div class="relative mt-1.5">
-                <span class="pointer-events-none absolute inset-y-0 left-0 z-10 flex items-center pl-3.5 text-imk-200">
+                <span class="pointer-events-none absolute inset-y-0 left-0 z-10 flex items-center pl-3.5 text-imk-300">
                     <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
@@ -30,10 +30,10 @@
 
         <!-- Password -->
         <div class="relative z-10">
-            <x-input-label for="password" value="Kata Sandi" class="ms-1 text-xs uppercase tracking-wider text-imk-400" />
+            <x-input-label for="password" value="Kata Sandi" class="ms-1 !text-xs uppercase tracking-wider !text-imk-400" />
 
             <div class="relative mt-1.5">
-                <span class="pointer-events-none absolute inset-y-0 left-0 z-10 flex items-center pl-3.5 text-imk-200">
+                <span class="pointer-events-none absolute inset-y-0 left-0 z-10 flex items-center pl-3.5 text-imk-300">
                     <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                     </svg>
@@ -83,7 +83,7 @@
          Tanpa ini, form yang berada di Z=24px dalam konteks preserve-3d yang sama
          akan menang saat hit-testing 3D dan menutupi area link di bawahnya. -->
     <div class="preserve-3d relative z-20 mt-6 border-t border-gray-100 pt-4 text-center" style="transform: translateZ(24px)">
-        <a href="/" class="relative z-20 inline-flex items-center text-xs text-gray-500 transition-colors hover:text-imk-600">
+        <a href="/" class="relative z-20 inline-flex items-center text-xs text-gray-600 transition-colors hover:text-imk-600">
             <svg class="me-1.5 h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>

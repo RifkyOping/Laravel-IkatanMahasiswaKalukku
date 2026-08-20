@@ -188,9 +188,9 @@
                         </div>
 
                         <div class="relative z-10 text-center" style="transform: translateZ(40px)">
-                            <p class="text-[10px] font-bold uppercase tracking-[.28em] text-imk-200">Ikatan Mahasiswa Kalukku</p>
+                            <p class="text-[11px] font-bold uppercase tracking-[.2em] text-imk-300">Ikatan Mahasiswa Kalukku</p>
                             <h2 class="mt-1.5 text-2xl font-black tracking-tight text-imk-600">Selamat Datang</h2>
-                            <p class="mt-1 text-xs text-gray-500">Silakan masuk ke akun Anda</p>
+                            <p class="mt-1 text-xs text-gray-600">Silakan masuk ke akun Anda</p>
                         </div>
 
                         <div class="preserve-3d relative z-10 mt-6">
