@@ -19,9 +19,11 @@
 
     @php
         // Nomor lokal 08xx tidak valid untuk wa.me yang menuntut kode negara,
-        // jadi awalan 0 dinormalkan menjadi 62.
+        // jadi awalan 0 dinormalkan menjadi 62. URL dirangkai di sini agar tidak
+        // perlu menggabung string di dalam ekspresi Blade.
         $waDigits = preg_replace('/[^0-9]/', '', (string) $registration->phone);
         $waNumber = str_starts_with($waDigits, '0') ? '62' . substr($waDigits, 1) : $waDigits;
+        $waUrl = $waNumber ? 'https://wa.me/' . $waNumber : null;
 
         $dataPribadi = [
             'Nama Lengkap' => $registration->name,
@@ -65,8 +67,8 @@
                         </div>
                     </div>
 
-                    @if ($waNumber)
-                        <a href="https://wa.me/{{ $waNumber }}" target="_blank" rel="noopener"
+                    @if ($waUrl)
+                        <a href="{{ $waUrl }}" target="_blank" rel="noopener"
                             class="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-emerald-500">
                             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -95,8 +97,8 @@
                             <dt class="text-xs font-bold uppercase tracking-wider text-gray-600 sm:w-2/5">Nomor HP/WA
                             </dt>
                             <dd class="text-sm font-medium sm:flex-1">
-                                @if ($waNumber)
-                                    <a href="https://wa.me/{{ $waNumber }}" target="_blank" rel="noopener"
+                                @if ($waUrl)
+                                    <a href="{{ $waUrl }}" target="_blank" rel="noopener"
                                         class="inline-flex items-center gap-1.5 text-emerald-700 hover:underline">
                                         {{ $registration->phone }}
                                         <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
