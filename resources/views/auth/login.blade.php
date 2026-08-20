@@ -1,47 +1,86 @@
 <x-guest-layout>
     <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+    <x-auth-session-status class="mb-5 rounded-xl bg-green-50 px-4 py-3 text-center" :status="session('status')" />
 
-    <form method="POST" action="{{ route('login') }}">
+    <form method="POST" action="{{ route('login') }}" class="space-y-5">
         @csrf
 
         <!-- Email Address -->
         <div>
             <x-input-label for="email" value="Email" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+
+            <div class="relative mt-1.5">
+                <span class="pointer-events-none absolute inset-y-0 left-0 z-10 flex items-center pl-3.5 text-gray-400">
+                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                </span>
+
+                <x-text-input id="email"
+                                class="block w-full py-2.5 pl-11"
+                                type="email"
+                                name="email"
+                                :value="old('email')"
+                                placeholder="nama@email.com"
+                                required autofocus autocomplete="username" />
+            </div>
+
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
         <!-- Password -->
-        <div class="mt-4">
+        <div>
             <x-input-label for="password" value="Kata Sandi" />
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
+            <div class="relative mt-1.5">
+                <span class="pointer-events-none absolute inset-y-0 left-0 z-10 flex items-center pl-3.5 text-gray-400">
+                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                </span>
+
+                <x-text-input id="password"
+                                class="block w-full py-2.5 pl-11"
+                                type="password"
+                                name="password"
+                                placeholder="Masukkan kata sandi"
+                                required autocomplete="current-password" />
+            </div>
 
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center cursor-pointer">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-imk-600 shadow-sm focus:ring-imk-500 cursor-pointer" name="remember">
+        <!-- Remember Me & Forgot Password -->
+        <div class="flex flex-wrap items-center justify-between gap-3">
+            <label for="remember_me" class="inline-flex cursor-pointer items-center">
+                <input id="remember_me" type="checkbox" name="remember"
+                        class="h-4 w-4 cursor-pointer rounded border-gray-300 text-imk-600 shadow-sm focus:ring-imk-400">
                 <span class="ms-2 text-sm text-gray-600">Ingat saya</span>
             </label>
-        </div>
 
-        <div class="flex items-center justify-end mt-6">
             @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-500 hover:text-imk-600 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-imk-500 transition-colors" href="{{ route('password.request') }}">
+                <a class="rounded-md text-sm font-medium text-imk-300 underline-offset-2 transition-colors hover:text-imk-600 hover:underline focus:outline-none focus:ring-2 focus:ring-imk-400 focus:ring-offset-2"
+                    href="{{ route('password.request') }}">
                     Lupa kata sandi?
                 </a>
             @endif
-
-            <x-primary-button class="ms-4 bg-imk-600 hover:bg-imk-700">
-                Masuk
-            </x-primary-button>
         </div>
+
+        <!-- Submit -->
+        <x-primary-button class="w-full justify-center py-3.5">
+            <svg class="me-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
+            Masuk
+        </x-primary-button>
     </form>
+
+    <div class="mt-8 border-t border-gray-100 pt-6 text-center">
+        <a href="/" class="inline-flex items-center text-sm text-gray-500 transition-colors hover:text-imk-600">
+            <svg class="me-1.5 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Kembali ke beranda
+        </a>
+    </div>
 </x-guest-layout>
