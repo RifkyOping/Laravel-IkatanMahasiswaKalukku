@@ -56,7 +56,7 @@
 
         <style>
             /* ===== Panggung 3D ===== */
-            .scene { perspective: 1500px; perspective-origin: 50% 45%; }
+            .scene { perspective: 1500px; perspective-origin: 50% 50%; }
             .preserve-3d { transform-style: preserve-3d; }
 
             .tilt {
@@ -125,19 +125,20 @@
             }
         </style>
     </head>
-    <body class="relative min-h-screen w-full overflow-hidden font-sans antialiased" style="background: #051F20">
+    <!-- overflow-x-hidden saja: overflow-hidden membuat halaman tidak bisa di-scroll sehingga logo & kartu terpotong -->
+    <body class="relative min-h-screen w-full overflow-x-hidden font-sans antialiased" style="background: #051F20">
 
-        <!-- Semua lapisan dekoratif wajib pointer-events-none agar tidak memblokir form -->
-        <div class="pointer-events-none absolute inset-0 z-0" style="background: radial-gradient(120% 90% at 50% -10%, #235347 0%, #0B2B26 48%, #051F20 100%)"></div>
+        <!-- Lapisan dekoratif: fixed agar tetap menutup viewport saat halaman di-scroll, pointer-events-none agar tidak memblokir form -->
+        <div class="pointer-events-none fixed inset-0 z-0" style="background: radial-gradient(120% 90% at 50% -10%, #235347 0%, #0B2B26 48%, #051F20 100%)"></div>
 
-        <div class="pointer-events-none absolute -left-32 -top-32 z-0 h-[26rem] w-[26rem] rounded-full bg-imk-200/25 blur-[130px]"></div>
-        <div class="pointer-events-none absolute -bottom-40 -right-32 z-0 h-[34rem] w-[34rem] rounded-full bg-imk-300/45 blur-[150px]"></div>
+        <div class="pointer-events-none fixed -left-32 -top-32 z-0 h-[26rem] w-[26rem] rounded-full bg-imk-200/25 blur-[130px]"></div>
+        <div class="pointer-events-none fixed -bottom-40 -right-32 z-0 h-[34rem] w-[34rem] rounded-full bg-imk-300/45 blur-[150px]"></div>
 
-        <div class="scene pointer-events-none absolute inset-0 z-0">
+        <div class="scene pointer-events-none fixed inset-0 z-0">
             <div class="grid-floor"></div>
         </div>
 
-        <div class="scene pointer-events-none absolute inset-0 z-0 hidden md:block">
+        <div class="scene pointer-events-none fixed inset-0 z-0 hidden md:block">
             <div class="float-slow absolute left-[10%] top-[16%]">
                 <div class="cube h-20 w-20" style="--half: 40px">
                     <span></span><span></span><span></span><span></span><span></span><span></span>
@@ -160,7 +161,8 @@
             </div>
         </div>
 
-        <main class="scene relative z-20 flex min-h-screen items-center justify-center px-4 py-16">
+        <!-- pt-40: ruang aman untuk logo yang melayang di atas kartu -->
+        <main class="scene relative z-20 flex min-h-screen items-center justify-center px-4 pb-20 pt-40">
             <div x-data="tilt3d"
                     x-on:mousemove="move($event)"
                     x-on:mouseleave="leave()"
@@ -175,7 +177,7 @@
                     <div class="pointer-events-none absolute -bottom-10 left-1/2 h-24 w-4/5 rounded-full bg-black/60 blur-2xl" style="transform: translate3d(-50%, 0, -120px)"></div>
 
                     <!-- Kartu (tanpa overflow-hidden: overflow selain visible memaksa preserve-3d jadi flat) -->
-                    <div class="preserve-3d relative rounded-[32px] border border-white/70 bg-white/95 px-8 pb-10 pt-20 shadow-[0_60px_120px_-30px_rgba(0,0,0,.75)]">
+                    <div class="preserve-3d relative rounded-[32px] border border-white/70 bg-white/95 px-8 pb-10 pt-24 shadow-[0_60px_120px_-30px_rgba(0,0,0,.75)]">
 
                         <!-- Lapisan dekoratif kartu: dijepit di sini, bukan di kartu -->
                         <div class="pointer-events-none absolute inset-0 z-0 overflow-hidden rounded-[32px]">
@@ -197,11 +199,11 @@
                     </div>
 
                     <!-- Logo melayang di atas kartu -->
-                    <a href="/" class="group absolute left-1/2 top-0 z-30 h-28 w-28" style="transform: translate3d(-50%, -50%, 100px)">
+                    <a href="/" class="group absolute left-1/2 top-0 z-30 h-32 w-32" style="transform: translate3d(-50%, -50%, 70px)">
                         <span class="pointer-events-none relative flex h-full w-full items-center justify-center">
                             <span class="ring-spin absolute inset-0 rounded-full border-2 border-dashed border-imk-200/70"></span>
-                            <span class="absolute inset-2 rounded-full bg-gradient-to-br from-white to-imk-100 shadow-[0_25px_45px_-15px_rgba(5,31,32,.75)] transition-transform duration-300 group-hover:scale-105"></span>
-                            <img src="{{ asset('image/logo.png') }}" alt="Logo IMK" class="relative h-20 w-20 object-contain drop-shadow-lg">
+                            <span class="absolute inset-1 rounded-full bg-gradient-to-br from-white to-imk-100 shadow-[0_25px_45px_-15px_rgba(5,31,32,.75)] transition-transform duration-300 group-hover:scale-105"></span>
+                            <img src="{{ asset('image/logo.png') }}" alt="Logo IMK" class="relative h-[5.5rem] w-[5.5rem] object-contain drop-shadow-lg">
                         </span>
                     </a>
                 </div>
