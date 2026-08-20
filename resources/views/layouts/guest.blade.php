@@ -15,9 +15,48 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+        <script>
+            // Didaftarkan sebelum Alpine.start() karena bundle Vite dimuat sebagai module (deferred).
+            document.addEventListener('alpine:init', () => {
+                window.Alpine.data('tilt3d', () => ({
+                    rx: 0,
+                    ry: 0,
+                    gx: 50,
+                    gy: 50,
+                    active: false,
+                    enabled: window.matchMedia('(hover: hover) and (pointer: fine)').matches
+                        && !window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+
+                    move(event) {
+                        if (!this.enabled) return
+
+                        // Nilai rect disimpan sebagai variabel lokal, bukan di state Alpine,
+                        // agar DOMRect tidak dibungkus Proxy (penyebab "Illegal invocation").
+                        const rect = this.$el.getBoundingClientRect()
+                        const px = (event.clientX - rect.left) / rect.width
+                        const py = (event.clientY - rect.top) / rect.height
+
+                        this.gx = Math.round(px * 100)
+                        this.gy = Math.round(py * 100)
+                        this.ry = ((px - 0.5) * 12).toFixed(2)
+                        this.rx = ((0.5 - py) * 9).toFixed(2)
+                        this.active = true
+                    },
+
+                    leave() {
+                        this.rx = 0
+                        this.ry = 0
+                        this.gx = 50
+                        this.gy = 50
+                        this.active = false
+                    },
+                }))
+            })
+        </script>
+
         <style>
             /* ===== Panggung 3D ===== */
-            .scene { perspective: 1500px; perspective-origin: 50% 35%; }
+            .scene { perspective: 1500px; perspective-origin: 50% 45%; }
             .preserve-3d { transform-style: preserve-3d; }
 
             .tilt {
@@ -88,20 +127,17 @@
     </head>
     <body class="relative min-h-screen w-full overflow-hidden font-sans antialiased" style="background: #051F20">
 
-        <!-- Gradasi dasar -->
-        <div class="absolute inset-0 z-0" style="background: radial-gradient(120% 90% at 50% -10%, #235347 0%, #0B2B26 48%, #051F20 100%)"></div>
+        <!-- Semua lapisan dekoratif wajib pointer-events-none agar tidak memblokir form -->
+        <div class="pointer-events-none absolute inset-0 z-0" style="background: radial-gradient(120% 90% at 50% -10%, #235347 0%, #0B2B26 48%, #051F20 100%)"></div>
 
-        <!-- Orb bercahaya -->
         <div class="pointer-events-none absolute -left-32 -top-32 z-0 h-[26rem] w-[26rem] rounded-full bg-imk-200/25 blur-[130px]"></div>
         <div class="pointer-events-none absolute -bottom-40 -right-32 z-0 h-[34rem] w-[34rem] rounded-full bg-imk-300/45 blur-[150px]"></div>
 
-        <!-- Lantai grid perspektif -->
         <div class="scene pointer-events-none absolute inset-0 z-0">
             <div class="grid-floor"></div>
         </div>
 
-        <!-- Kubus 3D melayang (hanya layar besar) -->
-        <div class="scene pointer-events-none absolute inset-0 z-10 hidden md:block">
+        <div class="scene pointer-events-none absolute inset-0 z-0 hidden md:block">
             <div class="float-slow absolute left-[10%] top-[16%]">
                 <div class="cube h-20 w-20" style="--half: 40px">
                     <span></span><span></span><span></span><span></span><span></span><span></span>
@@ -125,9 +161,9 @@
         </div>
 
         <main class="scene relative z-20 flex min-h-screen items-center justify-center px-4 py-16">
-            <div x-data="{ rect: null, px: 0.5, py: 0.5, rx: 0, ry: 0, gx: 50, gy: 50, active: false }"
-                    x-on:mousemove="rect = $el.getBoundingClientRect(); px = ($event.clientX - rect.left) / rect.width; py = ($event.clientY - rect.top) / rect.height; gx = px * 100; gy = py * 100; ry = (px - 0.5) * 18; rx = (0.5 - py) * 14; active = true"
-                    x-on:mouseleave="rx = 0; ry = 0; gx = 50; gy = 50; active = false"
+            <div x-data="tilt3d"
+                    x-on:mousemove="move($event)"
+                    x-on:mouseleave="leave()"
                     class="preserve-3d w-full sm:max-w-md">
 
                 <div class="tilt preserve-3d relative"
@@ -138,31 +174,31 @@
                     <div class="pointer-events-none absolute -inset-8 rounded-[46px] bg-imk-200/20 blur-3xl" style="transform: translateZ(-80px)"></div>
                     <div class="pointer-events-none absolute -bottom-10 left-1/2 h-24 w-4/5 rounded-full bg-black/60 blur-2xl" style="transform: translate3d(-50%, 0, -120px)"></div>
 
-                    <!-- Kartu -->
-                    <div class="preserve-3d relative overflow-hidden rounded-[32px] border border-white/70 bg-white/95 px-8 pb-10 pt-20 shadow-[0_60px_120px_-30px_rgba(0,0,0,.75)]">
+                    <!-- Kartu (tanpa overflow-hidden: overflow selain visible memaksa preserve-3d jadi flat) -->
+                    <div class="preserve-3d relative rounded-[32px] border border-white/70 bg-white/95 px-8 pb-10 pt-20 shadow-[0_60px_120px_-30px_rgba(0,0,0,.75)]">
 
-                        <!-- Kilau mengikuti kursor -->
-                        <div class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300"
-                                :class="active ? 'opacity-100' : ''"
-                                :style="`background: radial-gradient(520px circle at ${gx}% ${gy}%, rgba(255,255,255,.6), transparent 45%)`"></div>
+                        <!-- Lapisan dekoratif kartu: dijepit di sini, bukan di kartu -->
+                        <div class="pointer-events-none absolute inset-0 z-0 overflow-hidden rounded-[32px]">
+                            <div class="absolute inset-0 opacity-0 transition-opacity duration-300"
+                                    :class="active ? 'opacity-100' : ''"
+                                    :style="`background: radial-gradient(520px circle at ${gx}% ${gy}%, rgba(255,255,255,.6), transparent 45%)`"></div>
+                            <div class="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-imk-100/70 to-transparent"></div>
+                        </div>
 
-                        <!-- Aksen atas -->
-                        <div class="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-imk-100/70 to-transparent"></div>
-
-                        <div class="relative text-center" style="transform: translateZ(45px)">
+                        <div class="relative z-10 text-center" style="transform: translateZ(40px)">
                             <p class="text-[11px] font-bold uppercase tracking-[.3em] text-imk-200">Ikatan Mahasiswa Kalukku</p>
                             <h2 class="mt-2 text-3xl font-black tracking-tight text-imk-600">Selamat Datang</h2>
                             <p class="mt-1 text-sm text-gray-500">Silakan masuk ke akun Anda</p>
                         </div>
 
-                        <div class="preserve-3d relative mt-8">
+                        <div class="preserve-3d relative z-10 mt-8">
                             {{ $slot }}
                         </div>
                     </div>
 
                     <!-- Logo melayang di atas kartu -->
-                    <a href="/" class="group absolute left-1/2 top-0 z-30" style="transform: translate3d(-50%, -50%, 110px)">
-                        <span class="relative flex h-28 w-28 items-center justify-center">
+                    <a href="/" class="group absolute left-1/2 top-0 z-30 h-28 w-28" style="transform: translate3d(-50%, -50%, 100px)">
+                        <span class="pointer-events-none relative flex h-full w-full items-center justify-center">
                             <span class="ring-spin absolute inset-0 rounded-full border-2 border-dashed border-imk-200/70"></span>
                             <span class="absolute inset-2 rounded-full bg-gradient-to-br from-white to-imk-100 shadow-[0_25px_45px_-15px_rgba(5,31,32,.75)] transition-transform duration-300 group-hover:scale-105"></span>
                             <img src="{{ asset('image/logo.png') }}" alt="Logo IMK" class="relative h-20 w-20 object-contain drop-shadow-lg">

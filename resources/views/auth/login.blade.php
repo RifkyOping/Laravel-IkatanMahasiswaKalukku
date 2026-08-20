@@ -1,12 +1,12 @@
 <x-guest-layout>
     <!-- Session Status -->
-    <x-auth-session-status class="mb-5 rounded-2xl border border-green-200 bg-green-50 px-4 py-3 text-center" :status="session('status')" />
+    <x-auth-session-status class="relative z-10 mb-5 rounded-2xl border border-green-200 bg-green-50 px-4 py-3 text-center" :status="session('status')" />
 
-    <form method="POST" action="{{ route('login') }}" class="preserve-3d space-y-5" style="transform: translateZ(30px)">
+    <form method="POST" action="{{ route('login') }}" class="preserve-3d relative z-10 space-y-5" style="transform: translateZ(24px)">
         @csrf
 
         <!-- Email Address -->
-        <div>
+        <div class="relative z-10">
             <x-input-label for="email" value="Email" class="ms-1 uppercase tracking-wider text-imk-400" />
 
             <div class="relative mt-2">
@@ -17,7 +17,7 @@
                 </span>
 
                 <x-text-input id="email"
-                                class="block w-full rounded-2xl border-gray-200 bg-gray-50/80 py-3 pl-12 shadow-inner transition focus:bg-white"
+                                class="relative block w-full rounded-2xl border-gray-200 bg-gray-50/80 py-3 pl-12 shadow-inner transition focus:bg-white"
                                 type="email"
                                 name="email"
                                 :value="old('email')"
@@ -29,7 +29,7 @@
         </div>
 
         <!-- Password -->
-        <div>
+        <div class="relative z-10">
             <x-input-label for="password" value="Kata Sandi" class="ms-1 uppercase tracking-wider text-imk-400" />
 
             <div class="relative mt-2">
@@ -40,7 +40,7 @@
                 </span>
 
                 <x-text-input id="password"
-                                class="block w-full rounded-2xl border-gray-200 bg-gray-50/80 py-3 pl-12 shadow-inner transition focus:bg-white"
+                                class="relative block w-full rounded-2xl border-gray-200 bg-gray-50/80 py-3 pl-12 shadow-inner transition focus:bg-white"
                                 type="password"
                                 name="password"
                                 placeholder="Masukkan kata sandi"
@@ -51,7 +51,7 @@
         </div>
 
         <!-- Remember Me & Forgot Password -->
-        <div class="flex flex-wrap items-center justify-between gap-3 pt-1">
+        <div class="relative z-10 flex flex-wrap items-center justify-between gap-3 pt-1">
             <label for="remember_me" class="inline-flex cursor-pointer items-center">
                 <input id="remember_me" type="checkbox" name="remember"
                         class="h-4 w-4 cursor-pointer rounded border-gray-300 text-imk-600 shadow-sm focus:ring-imk-400">
@@ -67,10 +67,10 @@
         </div>
 
         <!-- Submit -->
-        <div class="preserve-3d relative pt-2" style="transform: translateZ(25px)">
-            <div class="pointer-events-none absolute inset-x-6 -bottom-2 h-8 rounded-full bg-imk-300/50 blur-xl"></div>
+        <div class="relative z-10 pt-2">
+            <div class="pointer-events-none absolute inset-x-6 -bottom-2 z-0 h-8 rounded-full bg-imk-300/50 blur-xl"></div>
 
-            <x-primary-button class="relative w-full justify-center py-4 shadow-[0_25px_45px_-18px_rgba(5,31,32,.9)]">
+            <x-primary-button class="relative z-10 w-full justify-center py-4 shadow-[0_25px_45px_-18px_rgba(5,31,32,.9)]">
                 <svg class="me-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                 </svg>
@@ -79,7 +79,7 @@
         </div>
     </form>
 
-    <div class="preserve-3d relative mt-8 border-t border-gray-100 pt-6 text-center" style="transform: translateZ(15px)">
+    <div class="relative z-10 mt-8 border-t border-gray-100 pt-6 text-center">
         <a href="/" class="inline-flex items-center text-sm text-gray-500 transition-colors hover:text-imk-600">
             <svg class="me-1.5 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
