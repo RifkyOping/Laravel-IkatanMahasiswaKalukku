@@ -7,7 +7,7 @@
             </div>
 
             <button type="button" onclick="document.getElementById('addModal').classList.remove('hidden')"
-                class="inline-flex items-center gap-2 rounded-xl bg-imk-600 px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-imk-500 focus:outline-none focus:ring-2 focus:ring-imk-400 focus:ring-offset-2">
+                class="inline-flex items-center gap-2 rounded-xl bg-imk-600 px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-imk-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-imk-400 focus-visible:ring-offset-2">
                 <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                 </svg>
@@ -15,6 +15,19 @@
             </button>
         </div>
     </x-slot>
+
+    @php
+        // Warna badge per jenis bagian supaya baris pimpinan, pengawas, dan
+        // divisi bisa dibedakan sekilas tanpa harus membaca teksnya.
+        $sectionStyles = [
+            'ketua' => 'border-imk-200 bg-imk-50 text-imk-600',
+            'sekretaris' => 'border-imk-200 bg-imk-50 text-imk-600',
+            'bendahara' => 'border-imk-200 bg-imk-50 text-imk-600',
+            'pembina' => 'border-amber-200 bg-amber-50 text-amber-700',
+            'pengawas' => 'border-sky-200 bg-sky-50 text-sky-700',
+            'divisi' => 'border-gray-200 bg-gray-50 text-gray-700',
+        ];
+    @endphp
 
     <div class="py-8">
         <div class="mx-auto max-w-7xl space-y-6 px-4 sm:px-6 lg:px-8">
@@ -39,27 +52,30 @@
                 </div>
 
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left">
-                        <thead class="bg-gray-50/80">
+                    {{-- min-w-full (bukan w-full) supaya sel tidak dipaksa menyusut
+                         dan overflow-x-auto benar-benar bisa digeser di ponsel. --}}
+                    <table class="min-w-full text-left">
+                        <thead class="border-b border-imk-100 bg-imk-50">
                             <tr>
-                                <th class="hidden w-20 px-4 py-3 text-xs font-bold uppercase tracking-wider text-gray-600 sm:table-cell sm:px-5">
+                                <th class="hidden w-20 px-4 py-3.5 text-[11px] font-bold uppercase tracking-wider text-imk-500 sm:table-cell sm:px-5">
                                     Urutan</th>
-                                <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-gray-600 sm:px-5">
+                                <th class="px-4 py-3.5 text-[11px] font-bold uppercase tracking-wider text-imk-500 sm:px-5">
                                     Nama Jabatan / Divisi</th>
-                                <th class="hidden px-5 py-3 text-xs font-bold uppercase tracking-wider text-gray-600 md:table-cell">
+                                <th class="hidden px-5 py-3.5 text-[11px] font-bold uppercase tracking-wider text-imk-500 md:table-cell">
                                     Bagian</th>
-                                <th class="hidden px-5 py-3 text-center text-xs font-bold uppercase tracking-wider text-gray-600 lg:table-cell">
+                                <th class="hidden px-5 py-3.5 text-center text-[11px] font-bold uppercase tracking-wider text-imk-500 lg:table-cell">
                                     Anggota</th>
-                                <th class="w-28 px-4 py-3 text-center text-xs font-bold uppercase tracking-wider text-gray-600 sm:px-5">
+                                <th class="w-28 px-4 py-3.5 text-center text-[11px] font-bold uppercase tracking-wider text-imk-500 sm:px-5">
                                     Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100">
                             @forelse ($organizations as $org)
-                                <tr class="transition-colors hover:bg-gray-50">
+                                @php $badge = $sectionStyles[$org->section] ?? 'border-gray-200 bg-gray-50 text-gray-700'; @endphp
+                                <tr class="align-middle transition-colors hover:bg-imk-50/50">
                                     <td class="hidden px-4 py-4 sm:table-cell sm:px-5">
                                         <span
-                                            class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-gray-100 text-xs font-bold text-gray-600">
+                                            class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-gray-100 text-xs font-bold tabular-nums text-gray-600">
                                             {{ $org->sort_order }}
                                         </span>
                                     </td>
@@ -69,7 +85,7 @@
 
                                         <div class="mt-1.5 flex flex-wrap items-center gap-2 md:hidden">
                                             <span
-                                                class="inline-flex items-center rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-gray-600">
+                                                class="inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide {{ $badge }}">
                                                 {{ $org->section }}
                                             </span>
                                             <a href="{{ route('admin.members.index', $org->id) }}"
@@ -98,17 +114,17 @@
 
                                     <td class="hidden px-5 py-4 md:table-cell">
                                         <span
-                                            class="inline-flex items-center rounded-full bg-gray-100 px-3 py-1 text-xs font-bold uppercase tracking-wide text-gray-600">
+                                            class="inline-flex items-center rounded-full border px-3 py-1 text-xs font-bold uppercase tracking-wide {{ $badge }}">
                                             {{ $org->section }}
                                         </span>
                                     </td>
 
                                     <td class="hidden px-5 py-4 text-center lg:table-cell">
                                         <a href="{{ route('admin.members.index', $org->id) }}"
-                                            class="inline-flex items-center gap-2 rounded-xl bg-imk-50 px-3 py-2 text-sm font-bold text-imk-600 transition hover:bg-imk-100">
+                                            class="inline-flex items-center gap-2 rounded-xl bg-imk-50 px-3 py-2 text-sm font-bold text-imk-600 transition hover:bg-imk-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-imk-400 focus-visible:ring-offset-2">
                                             Kelola Anggota
                                             <span
-                                                class="inline-flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-imk-600 px-1.5 text-[10px] font-black text-white">
+                                                class="inline-flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-imk-600 px-1.5 text-[10px] font-black tabular-nums text-white">
                                                 {{ $org->members_count }}
                                             </span>
                                         </a>
@@ -117,7 +133,7 @@
                                     <td class="px-4 py-4 sm:px-5">
                                         <div class="flex items-center justify-center gap-2">
                                             <a href="{{ route('admin.organizations.edit', $org->id) }}" title="Edit"
-                                                class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600 transition hover:bg-blue-100 hover:text-blue-700">
+                                                class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-imk-50 text-imk-600 transition hover:bg-imk-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-imk-400 focus-visible:ring-offset-2">
                                                 <svg class="h-5 w-5" fill="none" stroke="currentColor"
                                                     viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -131,7 +147,7 @@
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" title="Hapus"
-                                                    class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-red-50 text-red-600 transition hover:bg-red-100 hover:text-red-700">
+                                                    class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-red-50 text-red-600 transition hover:bg-red-100 hover:text-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2">
                                                     <svg class="h-5 w-5" fill="none" stroke="currentColor"
                                                         viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round"

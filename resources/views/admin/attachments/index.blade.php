@@ -7,7 +7,7 @@
             </div>
 
             <a href="{{ route('admin.attachments.create') }}"
-                class="inline-flex items-center gap-2 rounded-xl bg-imk-600 px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-imk-500 focus:outline-none focus:ring-2 focus:ring-imk-400 focus:ring-offset-2">
+                class="inline-flex items-center gap-2 rounded-xl bg-imk-600 px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-imk-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-imk-400 focus-visible:ring-offset-2">
                 <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                 </svg>
@@ -45,31 +45,33 @@
                 </div>
 
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left">
-                        <thead class="bg-gray-50/80">
+                    {{-- min-w-full (bukan w-full) supaya sel tidak dipaksa menyusut
+                         dan overflow-x-auto benar-benar bisa digeser di ponsel. --}}
+                    <table class="min-w-full text-left">
+                        <thead class="border-b border-imk-100 bg-imk-50">
                             <tr>
-                                <th class="hidden w-14 px-4 py-3 text-xs font-bold uppercase tracking-wider text-gray-600 sm:table-cell sm:px-5">
+                                <th class="hidden w-14 px-4 py-3.5 text-[11px] font-bold uppercase tracking-wider text-imk-500 sm:table-cell sm:px-5">
                                     No</th>
-                                <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-gray-600 sm:px-5">
+                                <th class="px-4 py-3.5 text-[11px] font-bold uppercase tracking-wider text-imk-500 sm:px-5">
                                     Nama / Judul File</th>
-                                <th class="hidden px-5 py-3 text-xs font-bold uppercase tracking-wider text-gray-600 lg:table-cell">
+                                <th class="hidden px-5 py-3.5 text-[11px] font-bold uppercase tracking-wider text-imk-500 lg:table-cell">
                                     Nama File Asli</th>
-                                <th class="hidden px-5 py-3 text-center text-xs font-bold uppercase tracking-wider text-gray-600 sm:table-cell">
+                                <th class="hidden px-5 py-3.5 text-center text-[11px] font-bold uppercase tracking-wider text-imk-500 sm:table-cell">
                                     Status</th>
-                                <th class="w-36 px-4 py-3 text-center text-xs font-bold uppercase tracking-wider text-gray-600 sm:px-5">
+                                <th class="w-36 px-4 py-3.5 text-center text-[11px] font-bold uppercase tracking-wider text-imk-500 sm:px-5">
                                     Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100">
                             @forelse ($attachments as $item)
-                                <tr class="transition-colors hover:bg-gray-50">
-                                    <td class="hidden px-4 py-4 text-sm font-medium text-gray-600 sm:table-cell sm:px-5">
+                                <tr class="align-middle transition-colors hover:bg-imk-50/50">
+                                    <td class="hidden px-4 py-4 text-sm font-medium tabular-nums text-gray-600 sm:table-cell sm:px-5">
                                         {{ $loop->iteration }}</td>
 
                                     <td class="px-4 py-4 sm:px-5">
                                         <div class="flex items-center gap-3">
                                             <div
-                                                class="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-imk-50 text-imk-600">
+                                                class="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-imk-50 text-imk-600 ring-1 ring-imk-100">
                                                 <svg class="h-5 w-5" fill="none" stroke="currentColor"
                                                     viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -85,10 +87,10 @@
                                                 <div class="mt-1.5 sm:hidden">
                                                     @if ($item->is_hidden)
                                                         <span
-                                                            class="inline-flex items-center rounded-full border border-red-100 bg-red-50 px-2 py-0.5 text-[10px] font-bold text-red-600">Tersembunyi</span>
+                                                            class="inline-flex items-center rounded-full border border-amber-100 bg-amber-50 px-2 py-0.5 text-[10px] font-bold text-amber-700">Tersembunyi</span>
                                                     @else
                                                         <span
-                                                            class="inline-flex items-center rounded-full border border-emerald-100 bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-600">Publik</span>
+                                                            class="inline-flex items-center rounded-full border border-emerald-100 bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-700">Publik</span>
                                                     @endif
                                                 </div>
                                             </div>
@@ -102,7 +104,7 @@
                                     <td class="hidden px-5 py-4 text-center sm:table-cell">
                                         @if ($item->is_hidden)
                                             <span
-                                                class="inline-flex items-center gap-1.5 rounded-full border border-red-100 bg-red-50 px-3 py-1 text-xs font-bold text-red-600">
+                                                class="inline-flex items-center gap-1.5 rounded-full border border-amber-100 bg-amber-50 px-3 py-1 text-xs font-bold text-amber-700">
                                                 <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor"
                                                     viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -113,7 +115,7 @@
                                             </span>
                                         @else
                                             <span
-                                                class="inline-flex items-center gap-1.5 rounded-full border border-emerald-100 bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-600">
+                                                class="inline-flex items-center gap-1.5 rounded-full border border-emerald-100 bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700">
                                                 <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor"
                                                     viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -129,6 +131,8 @@
 
                                     <td class="px-4 py-4 sm:px-5">
                                         <div class="flex items-center justify-center gap-2">
+                                            {{-- Warna tombol mengikuti aksi yang akan terjadi, bukan status saat ini:
+                                                 hijau = akan ditampilkan, amber = akan disembunyikan. --}}
                                             <form action="{{ route('admin.attachments.toggleVisibility', $item->id) }}"
                                                 method="POST" class="toggle-visibility-form inline-block"
                                                 data-status="{{ $item->is_hidden ? 'tampilkan' : 'sembunyikan' }}">
@@ -136,7 +140,7 @@
                                                 @method('PATCH')
                                                 <button type="submit"
                                                     title="{{ $item->is_hidden ? 'Tampilkan ke Publik' : 'Sembunyikan dari Publik' }}"
-                                                    class="inline-flex h-10 w-10 items-center justify-center rounded-xl transition {{ $item->is_hidden ? 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100 hover:text-emerald-700' : 'bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-800' }}">
+                                                    class="inline-flex h-10 w-10 items-center justify-center rounded-xl transition focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 {{ $item->is_hidden ? 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100 hover:text-emerald-700 focus-visible:ring-emerald-400' : 'bg-amber-50 text-amber-600 hover:bg-amber-100 hover:text-amber-700 focus-visible:ring-amber-400' }}">
                                                     @if ($item->is_hidden)
                                                         <svg class="h-5 w-5" fill="none" stroke="currentColor"
                                                             viewBox="0 0 24 24">
@@ -158,7 +162,7 @@
                                             </form>
 
                                             <a href="{{ route('admin.attachments.edit', $item->id) }}" title="Edit"
-                                                class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600 transition hover:bg-blue-100 hover:text-blue-700">
+                                                class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-imk-50 text-imk-600 transition hover:bg-imk-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-imk-400 focus-visible:ring-offset-2">
                                                 <svg class="h-5 w-5" fill="none" stroke="currentColor"
                                                     viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -172,7 +176,7 @@
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" title="Hapus"
-                                                    class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-red-50 text-red-600 transition hover:bg-red-100 hover:text-red-700">
+                                                    class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-red-50 text-red-600 transition hover:bg-red-100 hover:text-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2">
                                                     <svg class="h-5 w-5" fill="none" stroke="currentColor"
                                                         viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -219,7 +223,7 @@
                         ? 'menampilkan dokumen ini ke publik'
                         : 'menyembunyikan dokumen ini dari publik';
                     const confirmBtnColor = isTampilkan
-                        ? 'bg-emerald-600 hover:bg-emerald-700'
+                        ? 'bg-emerald-600 hover:bg-emerald-500'
                         : 'bg-amber-500 hover:bg-amber-600';
 
                     Swal.fire({
