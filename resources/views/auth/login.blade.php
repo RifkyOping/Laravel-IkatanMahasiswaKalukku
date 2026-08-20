@@ -79,8 +79,11 @@
         </div>
     </form>
 
-    <div class="relative z-10 mt-6 border-t border-gray-100 pt-4 text-center">
-        <a href="/" class="inline-flex items-center text-xs text-gray-500 transition-colors hover:text-imk-600">
+    <!-- Diangkat ke bidang Z yang sama dengan form (translateZ(24px)) + z-20.
+         Tanpa ini, form yang berada di Z=24px dalam konteks preserve-3d yang sama
+         akan menang saat hit-testing 3D dan menutupi area link di bawahnya. -->
+    <div class="preserve-3d relative z-20 mt-6 border-t border-gray-100 pt-4 text-center" style="transform: translateZ(24px)">
+        <a href="/" class="relative z-20 inline-flex items-center text-xs text-gray-500 transition-colors hover:text-imk-600">
             <svg class="me-1.5 h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
