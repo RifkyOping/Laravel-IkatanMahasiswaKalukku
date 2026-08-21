@@ -15,6 +15,9 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+        <!-- Background bintang jatuh 3D (canvas, tanpa dependency tambahan) -->
+        <script src="{{ asset('js/starfield-3d.js') }}" defer></script>
+
         <script>
             // Didaftarkan sebelum Alpine.start() karena bundle Vite dimuat sebagai module (deferred).
             document.addEventListener('alpine:init', () => {
@@ -66,50 +69,24 @@
             }
             .tilt--active { transition: transform .12s linear; }
 
-            /* ===== Lantai grid perspektif ===== */
-            .grid-floor {
-                position: absolute;
-                left: -25%; right: -25%; bottom: -18%;
-                height: 70vh;
-                background-image:
-                    linear-gradient(rgba(142, 182, 155, .20) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(142, 182, 155, .20) 1px, transparent 1px);
-                background-size: 72px 72px;
-                transform: rotateX(74deg);
-                transform-origin: bottom center;
-                animation: grid-scroll 7s linear infinite;
-                -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, .85), transparent 78%);
-                mask-image: linear-gradient(to top, rgba(0, 0, 0, .85), transparent 78%);
-            }
-            @keyframes grid-scroll {
-                from { background-position: 0 0; }
-                to   { background-position: 0 72px; }
-            }
-
-            /* ===== Kubus 3D melayang ===== */
-            .cube { position: relative; transform-style: preserve-3d; animation: cube-spin 20s linear infinite; }
-            .cube span {
-                position: absolute;
+            /* ===== Kanvas bintang jatuh 3D ===== */
+            /* Kanvas mengisi viewport; resolusi internal disesuaikan devicePixelRatio
+               di public/js/starfield-3d.js agar tajam di layar FHD ke atas. */
+            #starfield {
+                position: fixed;
                 inset: 0;
-                border: 1px solid rgba(218, 241, 222, .38);
-                background: rgba(142, 182, 155, .07);
-                box-shadow: inset 0 0 24px rgba(218, 241, 222, .12);
-            }
-            .cube span:nth-child(1) { transform: translateZ(var(--half)); }
-            .cube span:nth-child(2) { transform: rotateY(180deg) translateZ(var(--half)); }
-            .cube span:nth-child(3) { transform: rotateY(90deg) translateZ(var(--half)); }
-            .cube span:nth-child(4) { transform: rotateY(-90deg) translateZ(var(--half)); }
-            .cube span:nth-child(5) { transform: rotateX(90deg) translateZ(var(--half)); }
-            .cube span:nth-child(6) { transform: rotateX(-90deg) translateZ(var(--half)); }
-            @keyframes cube-spin {
-                from { transform: rotateX(0deg) rotateY(0deg); }
-                to   { transform: rotateX(360deg) rotateY(360deg); }
+                width: 100%;
+                height: 100%;
+                display: block;
+                pointer-events: none;
+                z-index: 0;
             }
 
-            .float-slow { animation: float-slow 8s ease-in-out infinite; }
-            @keyframes float-slow {
-                0%, 100% { transform: translateY(0); }
-                50%      { transform: translateY(-20px); }
+            /* Kabut nebula halus di belakang kanvas */
+            .nebula { animation: nebula-drift 18s ease-in-out infinite alternate; }
+            @keyframes nebula-drift {
+                from { transform: translate3d(0, 0, 0) scale(1); }
+                to   { transform: translate3d(3%, -3%, 0) scale(1.08); }
             }
 
             .ring-spin { animation: ring-spin 16s linear infinite; }
@@ -120,7 +97,7 @@
 
             /* ===== Aksesibilitas: hormati preferensi kurangi gerak ===== */
             @media (prefers-reduced-motion: reduce) {
-                .grid-floor, .cube, .float-slow, .ring-spin { animation: none !important; }
+                .nebula, .ring-spin { animation: none !important; }
                 .tilt, .tilt--active { transition: none; }
             }
         </style>
@@ -131,35 +108,11 @@
         <!-- Lapisan dekoratif: fixed agar tetap menutup viewport saat halaman di-scroll, pointer-events-none agar tidak memblokir form -->
         <div class="pointer-events-none fixed inset-0 z-0" style="background: radial-gradient(120% 90% at 50% -10%, #235347 0%, #0B2B26 48%, #051F20 100%)"></div>
 
-        <div class="pointer-events-none fixed -left-32 -top-32 z-0 h-[26rem] w-[26rem] rounded-full bg-imk-200/25 blur-[130px]"></div>
-        <div class="pointer-events-none fixed -bottom-40 -right-32 z-0 h-[34rem] w-[34rem] rounded-full bg-imk-300/45 blur-[150px]"></div>
+        <div class="nebula pointer-events-none fixed -left-32 -top-32 z-0 h-[26rem] w-[26rem] rounded-full bg-imk-200/25 blur-[130px]"></div>
+        <div class="nebula pointer-events-none fixed -bottom-40 -right-32 z-0 h-[34rem] w-[34rem] rounded-full bg-imk-300/45 blur-[150px]"></div>
 
-        <div class="scene pointer-events-none fixed inset-0 z-0">
-            <div class="grid-floor"></div>
-        </div>
-
-        <div class="scene pointer-events-none fixed inset-0 z-0 hidden md:block">
-            <div class="float-slow absolute left-[10%] top-[16%]">
-                <div class="cube h-20 w-20" style="--half: 40px">
-                    <span></span><span></span><span></span><span></span><span></span><span></span>
-                </div>
-            </div>
-            <div class="float-slow absolute right-[11%] top-[22%]" style="animation-delay: 1.5s">
-                <div class="cube h-12 w-12" style="--half: 24px">
-                    <span></span><span></span><span></span><span></span><span></span><span></span>
-                </div>
-            </div>
-            <div class="float-slow absolute bottom-[14%] left-[17%]" style="animation-delay: 3s">
-                <div class="cube h-14 w-14" style="--half: 28px">
-                    <span></span><span></span><span></span><span></span><span></span><span></span>
-                </div>
-            </div>
-            <div class="float-slow absolute bottom-[18%] right-[16%]" style="animation-delay: 4.5s">
-                <div class="cube h-16 w-16" style="--half: 32px">
-                    <span></span><span></span><span></span><span></span><span></span><span></span>
-                </div>
-            </div>
-        </div>
+        <!-- Bintang jatuh 3D -->
+        <canvas id="starfield" aria-hidden="true"></canvas>
 
         <!-- pt-36: ruang aman untuk logo yang melayang di atas kartu -->
         <main class="scene relative z-20 flex min-h-screen items-center justify-center px-4 pb-16 pt-36">
